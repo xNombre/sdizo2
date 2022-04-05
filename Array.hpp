@@ -10,6 +10,7 @@ class Array
 
 public:
     Array(const std::size_t &size = 0);
+    Array(const std::size_t &size, const std::size_t &value);
     Array(const std::initializer_list<T> &list);
     ~Array();
 
@@ -32,6 +33,7 @@ public:
     const T &operator[](const std::size_t &at) const;
     bool remove(const T &val);
     void print() const;
+    const bool empty() const;
 };
 
 // For template explicit instantiations

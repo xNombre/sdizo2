@@ -1,9 +1,8 @@
 #include <iostream>
 
-#include "MinHeap.hpp"
-
-#include "UnionFind.hpp"
 #include "Kruskal.hpp"
+#include "Prima.hpp"
+#include "Dijkstra.hpp"
 
 
 using namespace std;
@@ -21,8 +20,13 @@ int main()
     list.addEdge(1, 3, 20);
     list.addEdge(2, 3, 50);
     list.addEdge(2, 4, 50);
-    
+    list.addEdge(3, 4, 5);
+
     auto mst = Kruskal::generateMst(list);
 
+    auto mst2 = Prima::generateMst(list);
+
+    auto dijkstra = Dijkstra::getShortestPath(list, 1, 4);
+    
     return 0;
 }

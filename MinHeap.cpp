@@ -79,6 +79,12 @@ void MinHeap<T>::pop()
 #endif // !NDEBUG
 }
 
+template <typename T>
+const bool MinHeap<T>::empty() const
+{
+    return data.empty();
+}
+
 #ifndef NDEBUG
 #include <queue>
 

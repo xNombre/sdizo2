@@ -19,25 +19,16 @@ public:
     struct Edge {
         Edge(const size_t &fromVertex, const size_t &toVertex, const size_t &weight) : from(fromVertex), to(toVertex), weight(weight) { };
 
+        Edge(const Edge &edge) : from(edge.from), to(edge.to), weight(edge.weight) { };
+        
         Edge() { };
 
         size_t from, to;
         size_t weight;
 
-        bool operator< (const Edge &b) const
-        {
-            return weight < b.weight;
-        }
-
-        bool operator> (const Edge &b) const
-        {
-            return weight > b.weight;
-        }
-
-        bool operator== (const Edge &b) const
-        {
-            return weight == b.weight;
-        }
+        friend bool operator< (const Edge &a, const Edge &b);
+        friend bool operator> (const Edge &a, const Edge &b);
+        friend bool operator== (const Edge &a, const Edge &b);
     };
 
     void addEdge(const size_t &fromVertex, const size_t &toVertex, const size_t &weight)
@@ -50,6 +41,11 @@ public:
             vertexCount = toVertex;
     }
 
+    void addEdge(const Edge &edge)
+    {
+        edges.push_back(Edge(edge));
+    }
+    
     const Array<Edge> &getEdges() const
     {
         return edges;
@@ -59,3 +55,18 @@ private:
     Array<Edge> edges;
     size_t vertexCount = 0;
 };
+
+bool operator< (const ListGraph::Edge &a, const ListGraph::Edge &b)
+{
+    return a.weight < b.weight;
+}
+
+bool operator> (const ListGraph::Edge &a, const ListGraph::Edge &b)
+{
+    return a.weight > b.weight;
+}
+
+bool operator== (const ListGraph::Edge &a, const ListGraph::Edge &b)
+{
+    return a.weight == b.weight;
+}

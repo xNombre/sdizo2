@@ -20,7 +20,13 @@ Array<T>::Array(const size_t &size) : array_size(size)
     if (size == 0)
         return;
 
-    array = new T[size]();
+    array = new T[size];
+}
+
+template <typename T>
+Array<T>::Array(const std::size_t &size, const std::size_t &value) : Array(size)
+{
+    std::fill(array, array + array_size, value);
 }
 
 template <typename T>
@@ -178,4 +184,10 @@ void Array<T>::print() const
         std::cout << array[i] << " ";
     }
     std::cout << std::endl;
+}
+
+template <typename T>
+const bool Array<T>::empty() const
+{
+    return array_size == 0;
 }

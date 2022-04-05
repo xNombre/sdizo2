@@ -50,7 +50,7 @@ public:
 
     static MatrixGraph *generateMst(const MatrixGraph &graph)
     {
-        auto &vertices = graph.getVertexCount();
+        //auto &vertices = graph.getVertexCount();
         MatrixGraph *mstGraph = new MatrixGraph();
     }
 };

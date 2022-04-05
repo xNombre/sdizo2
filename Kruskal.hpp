@@ -12,7 +12,7 @@ class Kruskal {
 
 public:
 
-    static ListGraph *generateMST(const ListGraph &graph)
+    static ListGraph *generateMst(const ListGraph &graph)
     {
         auto &edges = graph.getEdges();
         auto &vertices = graph.getVertexCount();
@@ -48,7 +48,7 @@ public:
         return mstGraph;
     }
 
-    static MatrixGraph *generateMST(const MatrixGraph &graph)
+    static MatrixGraph *generateMst(const MatrixGraph &graph)
     {
         auto &vertices = graph.getVertexCount();
         MatrixGraph *mstGraph = new MatrixGraph();

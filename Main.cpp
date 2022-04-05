@@ -22,7 +22,7 @@ int main()
     list.addEdge(2, 3, 50);
     list.addEdge(2, 4, 50);
     
-    auto mst = Kruskal::generateMST(list);
+    auto mst = Kruskal::generateMst(list);
 
     return 0;
 }

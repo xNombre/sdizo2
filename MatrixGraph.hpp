@@ -2,7 +2,8 @@
 
 #include "Array.hpp"
 
-typedef Array<Array<size_t>> MatrixArray;
+typedef Array<size_t> MatrixRow;
+typedef Array<MatrixRow> MatrixArray;
 class MatrixGraph {
     MatrixArray matrix;
 
@@ -15,5 +16,10 @@ public:
     const MatrixArray &getMatrix() const
     {
         return matrix;
+    }
+
+    const size_t &getVertexCount() const
+    {
+        
     }
 };

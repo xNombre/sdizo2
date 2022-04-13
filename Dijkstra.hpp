@@ -29,37 +29,42 @@ public:
         }
 
         auto &edges = graph.getEdges();
-        auto &vertices = graph.getVertexCount();
 
         MinHeap<size_t> vertexToProcess;
-        Array<PathNode> pathWeights(edges.size() + 1); //FIXME
+        Array<PathNode> pathWeights(graph.getVertexCount() + 1); //FIXME
 
         vertexToProcess.push(from);
         pathWeights[from].weight = 0;
 
         while (!vertexToProcess.empty()) {
             auto curVertex = vertexToProcess.top();
-
-            if (curVertex == to)
-                break;
             vertexToProcess.pop();
 
             for (size_t i = 0; i < edges.size(); i++) {
                 auto newVertex = edges[i].to;
+
+                // Find all edges adjacent to curVertex
                 if (edges[i].from == curVertex) {
-                    if (pathWeights[newVertex].weight > pathWeights[curVertex].weight + edges[i].weight) {
-                        pathWeights[newVertex].weight = pathWeights[curVertex].weight + edges[i].weight;
+                    if (pathWeights[newVertex].weight >
+                        pathWeights[curVertex].weight + edges[i].weight) {
+                        // If shorter path is available, update pathWeights
+                        pathWeights[newVertex].weight =
+                            pathWeights[curVertex].weight + edges[i].weight;
+
+                        // Save previous vertex to be able to restore shortest path
                         pathWeights[newVertex].prev = curVertex;
+
+                        // Recalculate path weights for newVertex
                         vertexToProcess.push(newVertex);
                     }
                 }
             }
         }
 
+        // Prepare result and return
         result->totalCost = pathWeights[to].weight;
         auto cur = to;
-        while (cur != from)
-        {
+        while (cur != from) {
             result->path.push_front(cur);
             cur = pathWeights[cur].prev;
         }

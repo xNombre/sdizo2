@@ -3,6 +3,7 @@
 #include "Kruskal.hpp"
 #include "Prima.hpp"
 #include "Dijkstra.hpp"
+#include "BellmanFord.hpp"
 
 
 using namespace std;
@@ -27,6 +28,8 @@ int main()
     auto mst2 = Prima::generateMst(list);
 
     auto dijkstra = Dijkstra::getShortestPath(list, 1, 4);
+
+    auto bf = BellmanFord::getShortestPath(list, 1, 4);
     
     return 0;
 }

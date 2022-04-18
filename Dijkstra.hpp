@@ -7,7 +7,7 @@ class Dijkstra {
 
     struct PathNode {
         size_t weight = SIZE_MAX;
-        size_t prev = SIZE_MAX;
+        size_t prev;
 
         PathNode(const size_t weight, const size_t &prev) : weight(weight), prev(prev) { };
         PathNode() { };
@@ -31,7 +31,7 @@ public:
         auto &edges = graph.getEdges();
 
         MinHeap<size_t> vertexToProcess;
-        Array<PathNode> pathWeights(graph.getVertexCount() + 1); //FIXME
+        Array<PathNode> pathWeights(graph.getVertexCount());
 
         vertexToProcess.push(from);
         pathWeights[from].weight = 0;
@@ -44,19 +44,21 @@ public:
                 auto newVertex = edges[i].to;
 
                 // Find all edges adjacent to curVertex
-                if (edges[i].from == curVertex) {
-                    if (pathWeights[newVertex].weight >
-                        pathWeights[curVertex].weight + edges[i].weight) {
-                        // If shorter path is available, update pathWeights
-                        pathWeights[newVertex].weight =
-                            pathWeights[curVertex].weight + edges[i].weight;
+                if (edges[i].from != curVertex)
+                    continue;
 
-                        // Save previous vertex to be able to restore shortest path
-                        pathWeights[newVertex].prev = curVertex;
+                // Look for shorter path
+                if (pathWeights[newVertex].weight >
+                    pathWeights[curVertex].weight + edges[i].weight) {
+                    // Update path weight
+                    pathWeights[newVertex].weight =
+                        pathWeights[curVertex].weight + edges[i].weight;
 
-                        // Recalculate path weights for newVertex
-                        vertexToProcess.push(newVertex);
-                    }
+                    // Save previous vertex to be able to restore the shortest path
+                    pathWeights[newVertex].prev = curVertex;
+
+                    // Recalculate path weights for newVertex
+                    vertexToProcess.push(newVertex);
                 }
             }
         }
@@ -67,6 +69,27 @@ public:
         while (cur != from) {
             result->path.push_front(cur);
             cur = pathWeights[cur].prev;
+        }
+        result->path.push_front(from);
+
+        return result;
+    }
+
+    static DijkstraResult *getShortestPath(const MatrixGraph &graph, const size_t &from, const size_t &to)
+    {
+        DijkstraResult *result = new DijkstraResult();
+        if (from == to) {
+            result->totalCost = 0;
+            result->path.push_back(from);
+            return result;
+        }
+
+        // Prepare result and return
+        //result->totalCost = pathWeights[to].weight;
+        auto cur = to;
+        while (cur != from) {
+            result->path.push_front(cur);
+            //cur = pathWeights[cur].prev;
         }
         result->path.push_front(from);
 

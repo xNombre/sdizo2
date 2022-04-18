@@ -19,30 +19,83 @@ public:
 
     static BellmanFordResult *getShortestPath(const ListGraph &graph, const size_t &from, const size_t &to)
     {
+        BellmanFordResult *result = new BellmanFordResult();
+        if (from == to) {
+            result->totalCost = 0;
+            result->path.push_back(from);
+            return result;
+        }
+
         auto &edges = graph.getEdges();
 
-        Array<PathNode> pathWeights(edges.size() + 1); //FIXME
-        pathWeights[1].weight = 0;
+        Array<PathNode> pathWeights(edges.size());
+        pathWeights[0].weight = 0;
 
-        bool changesMade = false;
-        do {
+        bool changesMade;
+
+        for (size_t i = 0; i < graph.getVertexCount(); i++) {
             changesMade = false;
-            for (size_t vertex = 1; vertex <= graph.getVertexCount(); vertex++) {
+
+            for (size_t vertex = 0; vertex <= graph.getVertexCount(); vertex++) {
                 for (size_t edge = 0; edge < edges.size(); edge++) {
+                    const auto &curEdge = edges[edge];
+
+                    if (curEdge.from != vertex)
+                        continue;
+
                     // Skip vertices that are not visited yet
-                    if (pathWeights[edges[edge].from].weight != SIZE_MAX &&
-                        edges[edge].from == vertex) {
-                        if (pathWeights[edges[edge].to].weight >
-                            pathWeights[edges[edge].from].weight + edges[edge].weight) {
-                            changesMade = true;
-                            pathWeights[edges[edge].to].weight = pathWeights[edges[edge].from].weight + edges[edge].weight;
-                            pathWeights[edges[edge].to].prev = edges[edge].from;
-                        }
+                    if (pathWeights[curEdge.from].weight == SIZE_MAX)
+                        continue;
+
+                    // Check whether path can be shorter
+                    if (pathWeights[curEdge.to].weight >
+                        pathWeights[curEdge.from].weight + curEdge.weight) {
+                        // Update path weight
+                        pathWeights[curEdge.to].weight =
+                            pathWeights[curEdge.from].weight + curEdge.weight;
+
+                        pathWeights[curEdge.to].prev = curEdge.from;
+                        changesMade = true;
                     }
                 }
-
             }
-            
-        } while (changesMade);
+
+            // Break early if no changes were made
+            // This is ok per algorithm documentation
+            if (!changesMade)
+                break;
+        }
+
+        // Prepare result and return
+        result->totalCost = pathWeights[to].weight;
+        auto cur = to;
+        while (cur != from) {
+            result->path.push_front(cur);
+            cur = pathWeights[cur].prev;
+        }
+        result->path.push_front(from);
+
+        return result;
+    }
+
+    static BellmanFordResult *getShortestPath(const MatrixGraph &graph, const size_t &from, const size_t &to)
+    {
+        BellmanFordResult *result = new BellmanFordResult();
+        if (from == to) {
+            result->totalCost = 0;
+            result->path.push_back(from);
+            return result;
+        }
+
+        // Prepare result and return
+        //result->totalCost = pathWeights[to].weight;
+        auto cur = to;
+        while (cur != from) {
+            result->path.push_front(cur);
+            //cur = pathWeights[cur].prev;
+        }
+        result->path.push_front(from);
+
+        return result;
     }
 };

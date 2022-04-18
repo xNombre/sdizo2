@@ -12,6 +12,7 @@ public:
     Array(const std::size_t &size = 0);
     Array(const std::size_t &size, const std::size_t &value);
     Array(const std::initializer_list<T> &list);
+    Array &operator=(const Array &other);
     ~Array();
 
     // Set all elements of the array to 0

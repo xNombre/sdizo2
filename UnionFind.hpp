@@ -5,26 +5,26 @@
 using std::size_t;
 
 class UnionFind {
-
     struct Node {
-        size_t parent = 0;
+        size_t parent = SIZE_MAX;
         size_t rank = 0;
     };
-    
+
     Array<Node> table;
 
 public:
-    // Nodes are counted from 1
-    UnionFind(const size_t &size) : table(size + 1)
+    // SIZE_MAX is reserved
+    UnionFind(const size_t &size)
     {
+        if (size == SIZE_MAX)
+            throw std::invalid_argument("Limit reached!");
+
+        table = Array<Node>(size);
     }
 
     const size_t &findNode(const size_t &node)
     {
-        if (node == 0)
-            throw std::invalid_argument("Using node 0 is not allowed!");
-        
-        if (table[node].parent == 0)
+        if (table[node].parent == SIZE_MAX)
             return node;
 
         table[node].parent = findNode(table[node].parent);
@@ -33,9 +33,6 @@ public:
 
     void unionNodes(const size_t &a, const size_t &b)
     {
-        if (a == 0 || b == 0)
-            throw std::invalid_argument("Using node 0 is not allowed!");
-        
         auto aParent = findNode(a);
         auto bParent = findNode(b);
 

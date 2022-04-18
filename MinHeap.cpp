@@ -47,10 +47,10 @@ void MinHeap<T>::pop()
 
     if (max == 0)
         throw std::runtime_error("MinHeap is empty");
-    
+
     // moved from variable definition
     max--;
-    
+
     data[index] = data[max];
     data.resize(max);
 

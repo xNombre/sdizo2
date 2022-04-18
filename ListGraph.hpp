@@ -20,7 +20,7 @@ public:
         Edge(const size_t &fromVertex, const size_t &toVertex, const size_t &weight) : from(fromVertex), to(toVertex), weight(weight) { };
 
         Edge(const Edge &edge) : from(edge.from), to(edge.to), weight(edge.weight) { };
-        
+
         Edge() { };
 
         size_t from, to;
@@ -34,18 +34,18 @@ public:
     void addEdge(const size_t &fromVertex, const size_t &toVertex, const size_t &weight)
     {
         edges.push_back(Edge(fromVertex, toVertex, weight));
-        
+
         if (fromVertex > vertexCount)
-            vertexCount = fromVertex;
+            vertexCount = fromVertex + 1;
         else if (toVertex > vertexCount)
-            vertexCount = toVertex;
+            vertexCount = toVertex + 1;
     }
 
     void addEdge(const Edge &edge)
     {
         edges.push_back(Edge(edge));
     }
-    
+
     const Array<Edge> &getEdges() const
     {
         return edges;

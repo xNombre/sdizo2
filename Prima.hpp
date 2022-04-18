@@ -14,28 +14,34 @@ public:
 
         ListGraph *mst = new ListGraph();
 
-        Array<bool> seenVertices(vertices+1);
+        Array<bool> seenVertices(vertices);
         MinHeap<ListGraph::Edge> edgesQueue;
-        seenVertices[1] = true;
+        size_t curVertex;
 
-        size_t curVertex = 1;
-        for (size_t i = 0; i < edges.size(); i++) {
-            const ListGraph::Edge *candidate = nullptr;
+        // Pushes all edges adjacent to curVertex onto min heap
+        // This needs to be done for to and from because ListGraph
+        // isn't bidirectional
+        auto pushAdjacentEdges = [&]() {
+            for (size_t i = 0; i < edges.size(); i++) {
+                if (edges[i].to == curVertex) {
+                    if (!seenVertices[edges[i].from])
+                        edgesQueue.push(edges[i]);
+                }
+                else if (edges[i].from == curVertex) {
+                    if (!seenVertices[edges[i].to])
+                        edgesQueue.push(edges[i]);
+                }
+            }
+        };
 
-            if (edges[i].to == curVertex)
-                if (!seenVertices[edges[i].from])
-                    candidate = &edges[i];
-            if (edges[i].from == curVertex)
-                if (!seenVertices[edges[i].to])
-                    candidate = &edges[i];
+        // Start from vertex 0
+        seenVertices[0] = true;
+        curVertex = 0;
+        pushAdjacentEdges();
 
-            if (candidate)
-                edgesQueue.push(*candidate);
-        }
-
+        // MST will always have (vertices - 1) edges
         for (size_t addedEdges = 0; addedEdges < vertices - 1; addedEdges++) {
-            ListGraph::Edge candidate;
-            candidate = edgesQueue.top();
+            ListGraph::Edge candidate = edgesQueue.top();
             edgesQueue.pop();
 
             if (!seenVertices[candidate.to]) {
@@ -43,42 +49,23 @@ public:
                 seenVertices[curVertex] = true;
                 mst->addEdge(candidate);
 
-                for (size_t i = 0; i < edges.size(); i++) {
-                    const ListGraph::Edge *candidate = nullptr;
-
-                    if (edges[i].to == curVertex) {
-                        if (!seenVertices[edges[i].from])
-                            candidate = &edges[i];
-                    }
-                    else if (edges[i].from == curVertex)
-                        if (!seenVertices[edges[i].to])
-                            candidate = &edges[i];
-
-                    if (candidate)
-                        edgesQueue.push(*candidate);
-                }
+                pushAdjacentEdges();
             }
             else if (!seenVertices[candidate.from]) {
                 curVertex = candidate.from;
                 seenVertices[curVertex] = true;
                 mst->addEdge(candidate);
 
-                for (size_t i = 0; i < edges.size(); i++) {
-                    const ListGraph::Edge *candidate = nullptr;
-
-                    if (edges[i].to == curVertex)
-                        if (!seenVertices[edges[i].from])
-                            candidate = &edges[i];
-                        else if (edges[i].from == curVertex)
-                            if (!seenVertices[edges[i].to])
-                                candidate = &edges[i];
-
-                    if (candidate)
-                        edgesQueue.push(*candidate);
-                }
+                pushAdjacentEdges();
             }
         }
-        
+
         return mst;
     }
+
+    static MatrixGraph *generateMst(const MatrixGraph &graph)
+    {
+        //return mst;
+    }
+
 };

@@ -4,6 +4,7 @@
 #include "Prima.hpp"
 #include "Dijkstra.hpp"
 #include "BellmanFord.hpp"
+#include "MatrixGraph.hpp"
 
 using namespace std;
 
@@ -30,5 +31,12 @@ int main()
 
     auto bf = BellmanFord::getShortestPath(list, 0, 3);
 
+    MatrixGraph matrix;
+    matrix.addEdge(0, 1, 10);
+    matrix.addEdge(0, 2, 20);
+    matrix.addEdge(1, 2, 50);
+    matrix.addEdge(1, 3, 50);
+    matrix.addEdge(2, 3, 5);
+    
     return 0;
 }

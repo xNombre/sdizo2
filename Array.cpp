@@ -71,13 +71,19 @@ const T &Array<T>::operator[](const size_t &at) const
 template <typename T>
 void Array<T>::resize(const size_t &size)
 {
-    T *new_array = new T[size];
+    if (size == 0) {
+        delete[] array;
+        array = nullptr;
+    }
+    else {
+        T *new_array = new T[size]();
 
-    std::copy(array, array + std::min(array_size, size), new_array);
+        std::copy(array, array + std::min(array_size, size), new_array);
 
-    delete[] array;
-    array = new_array;
-
+        delete[] array;
+        array = new_array;
+    }
+    
     array_size = size;
 }
 

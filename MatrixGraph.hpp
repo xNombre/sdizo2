@@ -2,14 +2,14 @@
 
 #include "Array.hpp"
 
-typedef Array<size_t> NodeMatrix;
+typedef Array<long long> NodeMatrix;
 typedef Array<NodeMatrix> IncidenceMatrix;
 
 class MatrixGraph {
     IncidenceMatrix matrix;
 
 public:
-    void addEdge(const size_t &from, const size_t &to, const size_t &weight)
+    void addEdge(const size_t &from, const size_t &to, const long long &weight)
     {
         // Add new vertices if necessary
         auto newSize = std::max(from, to) + 1;
@@ -26,11 +26,13 @@ public:
         // Add new edge
         auto &edgesCount = matrix[0].size();
         for (size_t i = 0; i < matrix.size(); i++) {
-            matrix[i].resize(edgesCount + 1);
+            //matrix[i].resize(edgesCount + 1);
             if (i == from)
-                matrix[i] = -weight;
+                matrix[i].push_back(-weight);
             else if (i == to)
-                matrix[i] = weight;
+                matrix[i].push_back(weight);
+            else
+                matrix[i].push_back(0);
         }
     }
 

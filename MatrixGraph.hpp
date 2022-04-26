@@ -1,6 +1,11 @@
 #pragma once
 
 #include "Array.hpp"
+#include <iostream>
+
+#define RST  "\x1B[0m"
+#define KRED  "\x1B[41m"
+#define KBLU  "\x1B[44m"
 
 typedef Array<long long> NodeMatrix;
 typedef Array<NodeMatrix> IncidenceMatrix;
@@ -46,11 +51,53 @@ public:
         return matrix.size();
     }
 
-    const size_t &getEdgesCount() const
+    const size_t getEdgesCount() const
     {
         if (matrix.size() != 0)
             return matrix[0].size();
         else
             return 0;
+    }
+
+    size_t findFirstVertexOfEdge(const size_t &edge) const
+    {
+        auto count = getEdgesCount();
+        for (size_t i = 0; i < count; i++) {
+            if (matrix[i][edge] < 0)
+                return i;
+        }
+    }
+
+    void print() const
+    {
+        const auto &count = getEdgesCount();
+        const auto &vertices = getVertexCount();
+
+        std::cout << "   " << KRED;
+        for (size_t j = 0; j < count; j++) {
+            std::cout << j << "  ";
+
+            if (j < 10)
+                std::cout << " ";
+        }
+        std::cout << RST << std::endl;
+
+        for (size_t i = 0; i < vertices; i++) {
+            std::cout << KBLU << i << RST << " ";
+            if (i < 10)
+                std::cout << " ";
+            
+            for (size_t j = 0; j < count; j++) {
+                std::cout << matrix[i][j] << " ";
+                
+                if (matrix[i][j] < 10 && matrix[i][j] > -1)
+                    std::cout << "  ";
+                else if (matrix[i][j] > -10)
+                    std::cout << " ";
+            }
+            std::cout << std::endl;
+        }
+
+        std::cout << std::endl;
     }
 };

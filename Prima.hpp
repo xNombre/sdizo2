@@ -7,12 +7,12 @@
 class Prima {
 
 public:
-    static ListGraph *generateMst(const ListGraph &graph)
+    static ListGraph generateMst(const ListGraph &graph)
     {
         auto &edges = graph.getEdges();
         auto &vertices = graph.getVertexCount();
 
-        ListGraph *mst = new ListGraph();
+        ListGraph mst;
 
         Array<bool> seenVertices(vertices);
         MinHeap<ListGraph::Edge> edgesQueue;
@@ -47,14 +47,14 @@ public:
             if (!seenVertices[candidate.to]) {
                 curVertex = candidate.to;
                 seenVertices[curVertex] = true;
-                mst->addEdge(candidate);
+                mst.addEdge(candidate);
 
                 pushAdjacentEdges();
             }
             else if (!seenVertices[candidate.from]) {
                 curVertex = candidate.from;
                 seenVertices[curVertex] = true;
-                mst->addEdge(candidate);
+                mst.addEdge(candidate);
 
                 pushAdjacentEdges();
             }
@@ -63,9 +63,13 @@ public:
         return mst;
     }
 
-    static MatrixGraph *generateMst(const MatrixGraph &graph)
+    static MatrixGraph generateMst(const MatrixGraph &graph)
     {
-        //return mst;
+        MatrixGraph mst;
+
+
+        
+        return mst;
     }
 
 };

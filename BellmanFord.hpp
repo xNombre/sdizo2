@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ListGraph.hpp"
+#include "MatrixGraph.hpp"
 
 class BellmanFord {
     struct PathNode {

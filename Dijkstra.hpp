@@ -2,6 +2,7 @@
 
 #include "Array.hpp"
 #include "MinHeap.hpp"
+#include "MatrixGraph.hpp"
 
 class Dijkstra {
 

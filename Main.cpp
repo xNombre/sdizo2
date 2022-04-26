@@ -37,6 +37,11 @@ int main()
     matrix.addEdge(1, 2, 50);
     matrix.addEdge(1, 3, 50);
     matrix.addEdge(2, 3, 5);
-    
+    matrix.print();
+
+    auto kr = Kruskal::generateMst(matrix);
+    kr.print();
+    //list.print();
+
     return 0;
 }

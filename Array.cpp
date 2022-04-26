@@ -20,7 +20,7 @@ Array<T>::Array(const size_t &size) : array_size(size)
     if (size == 0)
         return;
 
-    array = new T[size];
+    array = new T[size]();
 }
 
 template <typename T>

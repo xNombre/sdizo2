@@ -12,8 +12,11 @@ typedef Array<NodeMatrix> IncidenceMatrix;
 
 class MatrixGraph {
     IncidenceMatrix matrix;
+    bool isDirected;
 
 public:
+    MatrixGraph(bool isDirected = true) : isDirected(isDirected) { }
+    
     void addEdge(const size_t &from, const size_t &to, const long long &weight)
     {
         // Add new vertices if necessary
@@ -31,9 +34,8 @@ public:
         // Add new edge
         auto &edgesCount = matrix[0].size();
         for (size_t i = 0; i < matrix.size(); i++) {
-            //matrix[i].resize(edgesCount + 1);
             if (i == from)
-                matrix[i].push_back(-weight);
+                matrix[i].push_back(isDirected ? -weight : weight);
             else if (i == to)
                 matrix[i].push_back(weight);
             else
@@ -97,7 +99,5 @@ public:
             }
             std::cout << std::endl;
         }
-
-        std::cout << std::endl;
     }
 };

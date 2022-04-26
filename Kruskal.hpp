@@ -51,7 +51,7 @@ public:
         MinHeap<ListGraph::Edge> edgesQueue;
         const auto &vertices = graph.getVertexCount();
         const auto &edges = graph.getEdgesCount();
-        MatrixGraph mstGraph;
+        MatrixGraph mstGraph(false);
         const auto &matrix = graph.getMatrix();
         UnionFind forest(vertices);
 

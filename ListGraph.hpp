@@ -11,6 +11,8 @@ using std::size_t;
 
 class ListGraph {
 public:
+    ListGraph(bool isDirected = true) : isDirected(isDirected) { }
+    
     const size_t &getVertexCount() const
     {
         return vertexCount;
@@ -74,13 +76,12 @@ public:
             std::cout << edges[i].weight;
             std::cout << std::endl;
         }
-
-        std::cout << std::endl;
     }
 
 private:
     Array<Edge> edges;
     size_t vertexCount = 0;
+    bool isDirected;
 };
 
 bool operator< (const ListGraph::Edge &a, const ListGraph::Edge &b)

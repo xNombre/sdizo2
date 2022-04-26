@@ -69,7 +69,7 @@ public:
         const auto &vertices = graph.getVertexCount();
         const auto &matrix = graph.getMatrix();
 
-        MatrixGraph mst;
+        MatrixGraph mst(false);
 
         Array<bool> seenVertices(vertices);
         MinHeap<ListGraph::Edge> edgesQueue;
@@ -82,19 +82,20 @@ public:
                 if (matrix[curVertex][i] == 0)
                     continue;
 
-                for (size_t end = 0; end < edges; end++) {
-                    // Find end vertices of edges adjacent to curVertex
-                    if (matrix[end][i] == 0)
+                for (size_t endVertex = 0; endVertex < vertices; endVertex++) {
+                    // Find end vertice of adjacent edge
+
+                    if (matrix[endVertex][i] == 0 || endVertex == curVertex)
                         continue;
 
                     // Queue edge if vertex not visited yet
-                    if (end != curVertex && !seenVertices[end]) {
-                        edgesQueue.push(
-                            ListGraph::Edge(curVertex, end, std::abs(matrix[end][i]))
-                        );
-                    }
-                }
+                    if (seenVertices[endVertex])
+                        continue;
 
+                    edgesQueue.push(
+                        ListGraph::Edge(curVertex, endVertex, std::abs(matrix[endVertex][i]))
+                    );
+                }
             }
         };
 
@@ -110,13 +111,6 @@ public:
 
             if (!seenVertices[candidate.to]) {
                 curVertex = candidate.to;
-                seenVertices[curVertex] = true;
-                mst.addEdge(candidate.from, candidate.to, candidate.weight);
-
-                pushAdjacentEdges();
-            }
-            else if (!seenVertices[candidate.from]) {
-                curVertex = candidate.from;
                 seenVertices[curVertex] = true;
                 mst.addEdge(candidate.from, candidate.to, candidate.weight);
 

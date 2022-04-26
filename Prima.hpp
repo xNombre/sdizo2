@@ -15,7 +15,7 @@ public:
         ListGraph mst;
 
         Array<bool> seenVertices(vertices);
-        MinHeap<ListGraph::Edge> edgesQueue;
+        MinHeap<Edge> edgesQueue;
         size_t curVertex;
 
         // Pushes all edges adjacent to curVertex onto min heap
@@ -41,7 +41,7 @@ public:
 
         // MST will always have (vertices - 1) edges
         for (size_t addedEdges = 0; addedEdges < vertices - 1; addedEdges++) {
-            ListGraph::Edge candidate = edgesQueue.top();
+            Edge candidate = edgesQueue.top();
             edgesQueue.pop();
 
             if (!seenVertices[candidate.to]) {
@@ -72,7 +72,7 @@ public:
         MatrixGraph mst(false);
 
         Array<bool> seenVertices(vertices);
-        MinHeap<ListGraph::Edge> edgesQueue;
+        MinHeap<Edge> edgesQueue;
         size_t curVertex;
 
         // Pushes all edges adjacent to curVertex onto min heap
@@ -93,7 +93,7 @@ public:
                         continue;
 
                     edgesQueue.push(
-                        ListGraph::Edge(curVertex, endVertex, std::abs(matrix[endVertex][i]))
+                        Edge(curVertex, endVertex, std::abs(matrix[endVertex][i]))
                     );
                 }
             }
@@ -106,7 +106,7 @@ public:
 
         // MST will always have (vertices - 1) edges
         for (size_t addedEdges = 0; addedEdges < vertices - 1; addedEdges++) {
-            ListGraph::Edge candidate = edgesQueue.top();
+            Edge candidate = edgesQueue.top();
             edgesQueue.pop();
 
             if (!seenVertices[candidate.to]) {

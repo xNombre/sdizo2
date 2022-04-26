@@ -6,24 +6,23 @@
 #include "TotalPathCost.hpp"
 
 class Dijkstra {
-
     struct PathNode {
         size_t weight = SIZE_MAX;
         size_t prev;
 
-        PathNode(const size_t weight, const size_t &prev) : weight(weight), prev(prev) { };
-        PathNode() { };
+        PathNode(const size_t weight, const size_t &prev) : weight(weight), prev(prev) { }
+        PathNode() { }
     };
 
     struct HeapNode {
         size_t distance;
         size_t vertex;
 
-        bool operator> (const HeapNode &other) const
+        bool operator>(const HeapNode &other) const
         {
             return distance > other.distance;
         }
-        bool operator< (const HeapNode &other) const
+        bool operator<(const HeapNode &other) const
         {
             return distance < other.distance;
         }
@@ -33,28 +32,19 @@ class Dijkstra {
         {
         }
 
-        HeapNode()
-        {
-        }
+        HeapNode() { }
     };
 
 public:
-    static TotalPathCost getShortestPath(const ListGraph &graph, const size_t &from, const size_t &to)
+    static Array<PathNode> getShortestPath(const ListGraph &graph)
     {
-        TotalPathCost result;
-        if (from == to) {
-            result.totalCost = 0;
-            result.path.push_back(from);
-            return result;
-        }
-
         const auto &edges = graph.getEdges();
 
         MinHeap<HeapNode> vertexToProcess;
         Array<PathNode> pathWeights(graph.getVertexCount());
 
-        vertexToProcess.push(HeapNode(from, 0));
-        pathWeights[from].weight = 0;
+        vertexToProcess.push(HeapNode(0, 0));
+        pathWeights[0].weight = 0;
 
         while (!vertexToProcess.empty()) {
             auto node = vertexToProcess.top();
@@ -66,7 +56,7 @@ public:
                 continue;
 
             for (size_t i = 0; i < edges.size(); i++) {
-                auto newVertex = edges[i].to;
+                const auto &newVertex = edges[i].to;
 
                 // Find all edges adjacent to curVertex
                 if (edges[i].from != curVertex)
@@ -88,27 +78,11 @@ public:
             }
         }
 
-        // Prepare result and return
-        result.totalCost = pathWeights[to].weight;
-        auto cur = to;
-        while (cur != from) {
-            result.path.push_front(cur);
-            cur = pathWeights[cur].prev;
-        }
-        result.path.push_front(from);
-
-        return result;
+        return pathWeights;
     }
 
-    static TotalPathCost getShortestPath(const MatrixGraph &graph, const size_t &from, const size_t &to)
+    static Array<PathNode> getShortestPath(const MatrixGraph &graph)
     {
-        TotalPathCost result;
-        if (from == to) {
-            result.totalCost = 0;
-            result.path.push_back(from);
-            return result;
-        }
-
         const auto &matrix = graph.getMatrix();
         const auto &edges = graph.getEdgesCount();
         const auto &vertices = graph.getVertexCount();
@@ -116,8 +90,8 @@ public:
         MinHeap<HeapNode> vertexToProcess;
         Array<PathNode> pathWeights(vertices);
 
-        vertexToProcess.push(HeapNode(from, 0));
-        pathWeights[from].weight = 0;
+        vertexToProcess.push(HeapNode(0, 0));
+        pathWeights[0].weight = 0;
 
         while (!vertexToProcess.empty()) {
             auto node = vertexToProcess.top();
@@ -157,7 +131,21 @@ public:
             }
         }
 
-        // Prepare result and return
+        return pathWeights;
+    }
+
+    template<typename T>
+    static TotalPathCost getShortestPathFromTo(const T &graph, const size_t &from, const size_t &to)
+    {
+        TotalPathCost result;
+        if (from == to) {
+            result.totalCost = 0;
+            result.path.push_back(from);
+            return result;
+        }
+
+        auto pathWeights = getShortestPath(graph);
+
         result.totalCost = pathWeights[to].weight;
         auto cur = to;
         while (cur != from) {

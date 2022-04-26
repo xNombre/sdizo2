@@ -1,7 +1,9 @@
 #pragma once
 
-#include "Array.hpp"
 #include <iostream>
+
+#include "Array.hpp"
+#include "Edge.hpp"
 
 #define RST  "\x1B[0m"
 #define KRED  "\x1B[41m"
@@ -16,7 +18,7 @@ class MatrixGraph {
 
 public:
     MatrixGraph(bool isDirected = true) : isDirected(isDirected) { }
-    
+
     void addEdge(const size_t &from, const size_t &to, const long long &weight)
     {
         // Add new vertices if necessary
@@ -63,11 +65,15 @@ public:
 
     size_t findFirstVertexOfEdge(const size_t &edge) const
     {
+        // FIXME: nie jest przygotowane na dwukierunkowe grafy bo sprawdza ujemną, wywala -1
         auto count = getEdgesCount();
         for (size_t i = 0; i < count; i++) {
             if (matrix[i][edge] < 0)
                 return i;
         }
+
+        // Unreachable case
+        return -1;
     }
 
     void print() const
@@ -88,10 +94,10 @@ public:
             std::cout << KBLU << i << RST << " ";
             if (i < 10)
                 std::cout << " ";
-            
+
             for (size_t j = 0; j < count; j++) {
                 std::cout << matrix[i][j] << " ";
-                
+
                 if (matrix[i][j] < 10 && matrix[i][j] > -1)
                     std::cout << "  ";
                 else if (matrix[i][j] > -10)

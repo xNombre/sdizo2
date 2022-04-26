@@ -14,15 +14,8 @@ class BellmanFord {
     };
 
 public:
-    static TotalPathCost getShortestPath(const ListGraph &graph, const size_t &from, const size_t &to)
+    static Array<PathNode> getShortestPath(const ListGraph &graph)
     {
-        TotalPathCost result;
-        if (from == to) {
-            result.totalCost = 0;
-            result.path.push_back(from);
-            return result;
-        }
-
         const auto &edges = graph.getEdges();
 
         Array<PathNode> pathWeights(edges.size());
@@ -63,27 +56,11 @@ public:
                 break;
         }
 
-        // Prepare result and return
-        result.totalCost = pathWeights[to].weight;
-        auto cur = to;
-        while (cur != from) {
-            result.path.push_front(cur);
-            cur = pathWeights[cur].prev;
-        }
-        result.path.push_front(from);
-
-        return result;
+        return pathWeights;
     }
 
-    static TotalPathCost getShortestPath(const MatrixGraph &graph, const size_t &from, const size_t &to)
+    static Array<PathNode> getShortestPath(const MatrixGraph &graph)
     {
-        TotalPathCost result;
-        if (from == to) {
-            result.totalCost = 0;
-            result.path.push_back(from);
-            return result;
-        }
-
         const auto &matrix = graph.getMatrix();
         const auto &edges = graph.getEdgesCount();
         const auto &vertices = graph.getVertexCount();
@@ -131,7 +108,21 @@ public:
                 break;
         }
 
-        // Prepare result and return
+        return pathWeights;
+    }
+
+    template<typename T>
+    static TotalPathCost getShortestPathFromTo(const T &graph, const size_t &from, const size_t &to)
+    {
+        TotalPathCost result;
+        if (from == to) {
+            result.totalCost = 0;
+            result.path.push_back(from);
+            return result;
+        }
+
+        auto pathWeights = getShortestPath(graph);
+
         result.totalCost = pathWeights[to].weight;
         auto cur = to;
         while (cur != from) {

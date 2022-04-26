@@ -19,7 +19,7 @@ public:
         ListGraph mstGraph;
 
         UnionFind forest(vertices);
-        MinHeap<ListGraph::Edge> edgesQueue;
+        MinHeap<Edge> edgesQueue;
 
         // Push all edges to the heap
         for (size_t i = 0; i < edges.size(); i++) {
@@ -27,7 +27,7 @@ public:
         }
 
         // MST will always have (vertices - 1) edges
-        for (size_t addedEdges = 0; addedEdges < vertices - 1; addedEdges++) {
+        for (size_t addedEdges = 0; addedEdges < vertices; addedEdges++) {
             const auto &node = edgesQueue.top();
 
             auto &aParent = forest.findNode(node.from);
@@ -48,7 +48,7 @@ public:
 
     static MatrixGraph generateMst(const MatrixGraph &graph)
     {
-        MinHeap<ListGraph::Edge> edgesQueue;
+        MinHeap<Edge> edgesQueue;
         const auto &vertices = graph.getVertexCount();
         const auto &edges = graph.getEdgesCount();
         MatrixGraph mstGraph(false);
@@ -59,13 +59,14 @@ public:
         for (size_t i = 0; i < vertices; i++) {
             for (size_t j = 0; j < edges; j++) {
                 if (matrix[i][j] > 0) {
-                    edgesQueue.push(ListGraph::Edge(i, graph.findFirstVertexOfEdge(j), matrix[i][j]));
+                    edgesQueue.push(Edge(i, graph.findFirstVertexOfEdge(j), matrix[i][j]));
+                    std::cout << graph.findFirstVertexOfEdge(j);
                 }
             }
         }
 
         // MST will always have (vertices - 1) edges
-        for (size_t addedEdges = 0; addedEdges < vertices - 1; addedEdges++) {
+        for (size_t addedEdges = 0; addedEdges < vertices; addedEdges++) {
             const auto &node = edgesQueue.top();
 
             auto &aParent = forest.findNode(node.from);
@@ -83,5 +84,5 @@ public:
 
         return mstGraph;
     }
-    
+
 };

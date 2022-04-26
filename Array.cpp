@@ -83,7 +83,7 @@ void Array<T>::resize(const size_t &size)
         delete[] array;
         array = new_array;
     }
-    
+
     array_size = size;
 }
 

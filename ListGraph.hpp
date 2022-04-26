@@ -1,7 +1,9 @@
 #pragma once
 
-#include "Array.hpp"
 #include <iostream>
+
+#include "Array.hpp"
+#include "Edge.hpp"
 
 using std::size_t;
 
@@ -12,7 +14,7 @@ using std::size_t;
 class ListGraph {
 public:
     ListGraph(bool isDirected = true) : isDirected(isDirected) { }
-    
+
     const size_t &getVertexCount() const
     {
         return vertexCount;
@@ -22,21 +24,6 @@ public:
     {
         vertexCount = count;
     }
-
-    struct Edge {
-        Edge(const size_t &fromVertex, const size_t &toVertex, const size_t &weight) : from(fromVertex), to(toVertex), weight(weight) { };
-
-        Edge(const Edge &edge) : from(edge.from), to(edge.to), weight(edge.weight) { };
-
-        Edge() { };
-
-        size_t from, to;
-        size_t weight;
-
-        friend bool operator< (const Edge &a, const Edge &b);
-        friend bool operator> (const Edge &a, const Edge &b);
-        friend bool operator== (const Edge &a, const Edge &b);
-    };
 
     void addEdge(const size_t &fromVertex, const size_t &toVertex, const size_t &weight)
     {
@@ -61,7 +48,7 @@ public:
     void print() const
     {
         std::cout << KRED << "F  T  W " << RST << std::endl;
-        
+
         for (size_t i = 0; i < edges.size(); i++) {
             std::cout << edges[i].from << " ";
 
@@ -83,18 +70,3 @@ private:
     size_t vertexCount = 0;
     bool isDirected;
 };
-
-bool operator< (const ListGraph::Edge &a, const ListGraph::Edge &b)
-{
-    return a.weight < b.weight;
-}
-
-bool operator> (const ListGraph::Edge &a, const ListGraph::Edge &b)
-{
-    return a.weight > b.weight;
-}
-
-bool operator== (const ListGraph::Edge &a, const ListGraph::Edge &b)
-{
-    return a.weight == b.weight;
-}

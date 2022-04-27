@@ -14,12 +14,12 @@ class BellmanFord {
     };
 
 public:
-    static Array<PathNode> getShortestPath(const ListGraph &graph)
+    static Array<PathNode> getShortestPath(const ListGraph &graph, const size_t &from = 0)
     {
         const auto &edges = graph.getEdges();
 
         Array<PathNode> pathWeights(edges.size());
-        pathWeights[0].weight = 0;
+        pathWeights[from].weight = 0;
 
         bool changesMade;
 
@@ -59,14 +59,14 @@ public:
         return pathWeights;
     }
 
-    static Array<PathNode> getShortestPath(const MatrixGraph &graph)
+    static Array<PathNode> getShortestPath(const MatrixGraph &graph, const size_t &from = 0)
     {
         const auto &matrix = graph.getMatrix();
         const auto &edges = graph.getEdgesCount();
         const auto &vertices = graph.getVertexCount();
 
         Array<PathNode> pathWeights(edges);
-        pathWeights[0].weight = 0;
+        pathWeights[from].weight = 0;
 
         bool changesMade;
 
@@ -115,15 +115,24 @@ public:
     static TotalPathCost getShortestPathFromTo(const T &graph, const size_t &from, const size_t &to)
     {
         TotalPathCost result;
-        if (from == to) {
+
+        if (graph.getVertexCount() == 0)
+            return result;
+        
+        /*if (from == to) {
             result.totalCost = 0;
             result.path.push_back(from);
             return result;
-        }
+        }*/
 
-        auto pathWeights = getShortestPath(graph);
+        auto pathWeights = getShortestPath(graph, from);
+
+        // There can be no path
+        if (pathWeights[to].weight == SIZE_MAX)
+            return result;
 
         result.totalCost = pathWeights[to].weight;
+
         auto cur = to;
         while (cur != from) {
             result.path.push_front(cur);

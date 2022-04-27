@@ -29,10 +29,9 @@ public:
     {
         edges.push_back(Edge(fromVertex, toVertex, weight));
 
-        if (fromVertex > vertexCount)
-            vertexCount = fromVertex + 1;
-        else if (toVertex > vertexCount)
-            vertexCount = toVertex + 1;
+        auto max = std::max(fromVertex, toVertex) + 1;
+        if (max > vertexCount)
+            vertexCount = max;
     }
 
     void addEdge(const Edge &edge)
@@ -65,6 +64,12 @@ public:
         }
     }
 
+    void clear()
+    {
+        vertexCount = 0;
+        edges = Array<Edge>();
+    }
+    
 private:
     Array<Edge> edges;
     size_t vertexCount = 0;

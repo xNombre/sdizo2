@@ -63,12 +63,12 @@ public:
             return 0;
     }
 
-    size_t findFirstVertexOfEdge(const size_t &edge) const
+    size_t findOtherVertexOfEdge(const size_t &edge, const size_t &vertex) const
     {
         // FIXME: nie jest przygotowane na dwukierunkowe grafy bo sprawdza ujemną, wywala -1
         auto count = getEdgesCount();
         for (size_t i = 0; i < count; i++) {
-            if (matrix[i][edge] < 0)
+            if (matrix[i][edge] != 0 && i != vertex)
                 return i;
         }
 
@@ -105,5 +105,10 @@ public:
             }
             std::cout << std::endl;
         }
+    }
+
+    void clear()
+    {
+        matrix = IncidenceMatrix();
     }
 };

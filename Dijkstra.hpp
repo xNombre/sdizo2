@@ -36,15 +36,15 @@ class Dijkstra {
     };
 
 public:
-    static Array<PathNode> getShortestPath(const ListGraph &graph)
+    static Array<PathNode> getShortestPath(const ListGraph &graph, const size_t &from = 0)
     {
         const auto &edges = graph.getEdges();
 
         MinHeap<HeapNode> vertexToProcess;
         Array<PathNode> pathWeights(graph.getVertexCount());
 
-        vertexToProcess.push(HeapNode(0, 0));
-        pathWeights[0].weight = 0;
+        vertexToProcess.push(HeapNode(from, 0));
+        pathWeights[from].weight = 0;
 
         while (!vertexToProcess.empty()) {
             auto node = vertexToProcess.top();
@@ -81,7 +81,7 @@ public:
         return pathWeights;
     }
 
-    static Array<PathNode> getShortestPath(const MatrixGraph &graph)
+    static Array<PathNode> getShortestPath(const MatrixGraph &graph, const size_t &from)
     {
         const auto &matrix = graph.getMatrix();
         const auto &edges = graph.getEdgesCount();
@@ -90,8 +90,8 @@ public:
         MinHeap<HeapNode> vertexToProcess;
         Array<PathNode> pathWeights(vertices);
 
-        vertexToProcess.push(HeapNode(0, 0));
-        pathWeights[0].weight = 0;
+        vertexToProcess.push(HeapNode(from, 0));
+        pathWeights[from].weight = 0;
 
         while (!vertexToProcess.empty()) {
             auto node = vertexToProcess.top();
@@ -104,8 +104,8 @@ public:
 
             // Pushes all edges adjacent to curVertex onto min heap
             for (size_t i = 0; i < edges; i++) {
-                // Find edges adjacent to curVertex
-                if (matrix[curVertex][i] == 0)
+                // Find edges coming from curVertex
+                if (matrix[curVertex][i] >= 0)
                     continue;
 
                 for (size_t endVertex = 0; endVertex < vertices; endVertex++) {
@@ -138,15 +138,24 @@ public:
     static TotalPathCost getShortestPathFromTo(const T &graph, const size_t &from, const size_t &to)
     {
         TotalPathCost result;
-        if (from == to) {
+        
+        if (graph.getVertexCount() == 0)
+            return result;
+        
+        /*if (from == to) {
             result.totalCost = 0;
             result.path.push_back(from);
             return result;
-        }
+        }*/
 
-        auto pathWeights = getShortestPath(graph);
+        auto pathWeights = getShortestPath(graph, from);
+
+        // There can be no path
+        if (pathWeights[to].weight == SIZE_MAX)
+            return result;
 
         result.totalCost = pathWeights[to].weight;
+
         auto cur = to;
         while (cur != from) {
             result.path.push_front(cur);

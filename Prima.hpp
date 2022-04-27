@@ -14,6 +14,9 @@ public:
 
         ListGraph mst;
 
+        if (vertices == 0)
+            return mst;
+        
         Array<bool> seenVertices(vertices);
         MinHeap<Edge> edgesQueue;
         size_t curVertex;
@@ -71,6 +74,9 @@ public:
 
         MatrixGraph mst(false);
 
+        if (vertices == 0)
+            return mst;
+        
         Array<bool> seenVertices(vertices);
         MinHeap<Edge> edgesQueue;
         size_t curVertex;

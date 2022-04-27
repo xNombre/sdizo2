@@ -39,9 +39,9 @@ void readFromFile(ListGraph &listg, MatrixGraph &matrixg)
     }
 }
 
-size_t getDataFromUser()
+long long getDataFromUser()
 {
-    size_t val;
+    long long val;
     //cout << "Podaj wartosc:\n";
     cin >> val;
 
@@ -84,9 +84,13 @@ repeat:
         return;
         break;
     case 'r':
+        listGraph.clear();
+        matrixGraph.clear();
         readFromFile(listGraph, matrixGraph);
         break;
     case 'x': {
+        listGraph.clear();
+        matrixGraph.clear();
         cout << "Count: \n";
         auto count = getDataFromUser();
         cout << "Fill %: \n";
@@ -103,8 +107,8 @@ repeat:
     }
     case 'p': {
         auto resultL = Prima::generateMst(listGraph);
-        auto resultM = Prima::generateMst(matrixGraph);
         resultL.print();
+        auto resultM = Prima::generateMst(matrixGraph);
         resultM.print();
         break;
     }
@@ -138,9 +142,13 @@ repeat:
         return;
         break;
     case 'r':
+        listGraph.clear();
+        matrixGraph.clear();
         readFromFile(listGraph, matrixGraph);
         break;
     case 'x': {
+        listGraph.clear();
+        matrixGraph.clear();
         cout << "Count: \n";
         auto count = getDataFromUser();
         cout << "Fill %: \n";
@@ -158,7 +166,7 @@ repeat:
         auto resultM = BellmanFord::getShortestPathFromTo(matrixGraph, from, to);
 
         resultL.print();
-        resultM.print();
+        //resultM.print();
         
         break;
     }
@@ -172,7 +180,7 @@ repeat:
         auto resultM = Dijkstra::getShortestPathFromTo(matrixGraph, from, to);
 
         resultL.print();
-        resultM.print();
+        //resultM.print();
 
         break;
     }

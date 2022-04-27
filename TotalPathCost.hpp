@@ -8,11 +8,16 @@
 #define KBLU  "\x1B[44m"
 
 struct TotalPathCost {
-    size_t totalCost;
+    size_t totalCost = SIZE_MAX;
     Array<size_t> path;
 
     void print()
     {
+        if (totalCost == SIZE_MAX) {
+            std::cout << KRED << "Nie ma drogi!" << RST << std::endl;
+            return;
+        }
+        
         for (size_t i = 0; i < path.size() - 1; i++) {
             std::cout << KBLU << path[i] << RST << " -> ";
         }

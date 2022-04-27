@@ -14,8 +14,8 @@ public:
 
     static ListGraph generateMst(const ListGraph &graph)
     {
-        auto &edges = graph.getEdges();
-        auto &vertices = graph.getVertexCount();
+        const auto &edges = graph.getEdges();
+        const auto &vertices = graph.getVertexCount();
         ListGraph mstGraph;
 
         UnionFind forest(vertices);
@@ -59,8 +59,7 @@ public:
         for (size_t i = 0; i < vertices; i++) {
             for (size_t j = 0; j < edges; j++) {
                 if (matrix[i][j] > 0) {
-                    edgesQueue.push(Edge(i, graph.findFirstVertexOfEdge(j), matrix[i][j]));
-                    std::cout << graph.findFirstVertexOfEdge(j);
+                    edgesQueue.push(Edge(i, graph.findOtherVertexOfEdge(j, i), matrix[i][j]));
                 }
             }
         }

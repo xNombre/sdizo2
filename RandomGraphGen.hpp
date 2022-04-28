@@ -9,18 +9,34 @@ static std::random_device rd;
 static std::default_random_engine generator(rd());
 
 class RandomGraphGen {
-
-    template <typename T>
-    T randomNumberWithinRange(const T &first, const T &second)
+    static size_t randomNumberWithinRange(const size_t &first, const size_t &second)
     {
-        std::uniform_int_distribution<T> distribution(first, second);
+        std::uniform_int_distribution<size_t> distribution(first, second);
 
         return distribution(generator);
     }
 
 public:
-    static void random(ListGraph &listg, MatrixGraph &matrixg, size_t count, size_t fillFactor)
+    static void random(ListGraph &listg, MatrixGraph &matrixg, size_t vertexCount, size_t fillFactor, const bool &isDirected = true)
     {
-        
+        size_t edgesCount;
+
+        edgesCount = vertexCount * (vertexCount - 1);
+
+        if (isDirected)
+            edgesCount /= 2;
+
+        edgesCount *= 0.01 * fillFactor;
+
+        for (; edgesCount > 0; edgesCount--) {
+            size_t from = randomNumberWithinRange(0, vertexCount - 1);
+            size_t to = randomNumberWithinRange(0, vertexCount - 1);
+            while (to == from)
+                to = randomNumberWithinRange(0, vertexCount - 1);
+            size_t weight = randomNumberWithinRange(1, 100);
+
+            listg.addEdge(from, to, weight);
+            matrixg.addEdge(from, to, weight);
+        }
     }
 };

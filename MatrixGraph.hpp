@@ -66,6 +66,7 @@ public:
     size_t findOtherVertexOfEdge(const size_t &edge, const size_t &vertex) const
     {
         // FIXME: nie jest przygotowane na dwukierunkowe grafy bo sprawdza ujemną, wywala -1
+        // Napraw dla cykli wokół tego samego v
         auto count = getEdgesCount();
         for (size_t i = 0; i < count; i++) {
             if (matrix[i][edge] != 0 && i != vertex)

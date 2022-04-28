@@ -141,12 +141,9 @@ public:
         
         if (graph.getVertexCount() == 0)
             return result;
-        
-        /*if (from == to) {
-            result.totalCost = 0;
-            result.path.push_back(from);
+
+        if (graph.getVertexCount() < std::max(from, to) + 1)
             return result;
-        }*/
 
         auto pathWeights = getShortestPath(graph, from);
 

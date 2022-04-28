@@ -95,7 +95,7 @@ repeat:
         auto count = getDataFromUser();
         cout << "Fill %: \n";
         auto fill = getDataFromUser();
-        RandomGraphGen::random(listGraph, matrixGraph, count, fill);
+        RandomGraphGen::random(listGraph, matrixGraph, count, fill, false);
         break;
     }
     case 'k': {

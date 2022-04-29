@@ -22,10 +22,6 @@ void MinHeap<T>::push(const T &value)
             std::swap(data[pos], data[PARENT_OF(pos)]);
         pos = PARENT_OF(pos);
     }
-
-#ifndef NDEBUG
-    check_max();
-#endif // !NDEBUG
 }
 
 template <typename T>
@@ -73,10 +69,6 @@ void MinHeap<T>::pop()
         else
             break;
     }
-
-#ifndef NDEBUG
-    check_max();
-#endif // !NDEBUG
 }
 
 template <typename T>
@@ -84,28 +76,3 @@ const bool MinHeap<T>::empty() const
 {
     return data.empty();
 }
-
-#ifndef NDEBUG
-#include <queue>
-
-template <typename T>
-void MinHeap<T>::check_max() const
-{
-    std::queue<size_t> checkQueue;
-    checkQueue.push(0);
-
-    while (!checkQueue.empty()) {
-        if (L_CHILD_OF(checkQueue.front()) < data.size()) {
-            if (data[L_CHILD_OF(checkQueue.front())] < data[checkQueue.front()])
-                throw std::runtime_error("nope");
-            checkQueue.push(L_CHILD_OF(checkQueue.front()));
-        }
-        if (R_CHILD_OF(checkQueue.front()) < data.size()) {
-            if (data[R_CHILD_OF(checkQueue.front())] < data[checkQueue.front()])
-                throw std::runtime_error("nope");
-            checkQueue.push(R_CHILD_OF(checkQueue.front()));
-        }
-        checkQueue.pop();
-    }
-}
-#endif // !NDEBUG

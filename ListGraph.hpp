@@ -46,6 +46,9 @@ public:
 
     void print() const
     {
+        if (vertexCount == 0)
+            return;
+        
         std::cout << KRED << "F  T  W " << RST << std::endl;
 
         for (size_t i = 0; i < edges.size(); i++) {

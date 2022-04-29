@@ -38,7 +38,7 @@ class TimeBenchmark {
         }
     };
 
-    const vector<size_t> graphSizes = { 20, 50, 100, 150, 200, 250 };
+    const vector<size_t> graphSizes = { 20, 50, 70, 100, 120, 150 };
     const vector<size_t> fillFactors = { 25, 50, 75, 99 };
 
     const size_t averagingLoopsCount = 1;
@@ -55,7 +55,7 @@ class TimeBenchmark {
 
             for (std::size_t i = 0; i < averagingLoopsCount; i++) {
                 containerTimeAveraging.benchmarkStart();
-                Algorithm::generateMst(graph);
+                volatile auto tmp = Algorithm::generateMst(graph);
                 containerTimeAveraging.benchmarkStop();
             }
         }
@@ -73,7 +73,7 @@ class TimeBenchmark {
 
             for (std::size_t i = 0; i < averagingLoopsCount; i++) {
                 containerTimeAveraging.benchmarkStart();
-                Algorithm::getShortestPath(graph);
+                volatile auto tmp = Algorithm::getShortestPath(graph);
                 containerTimeAveraging.benchmarkStop();
             }
         }

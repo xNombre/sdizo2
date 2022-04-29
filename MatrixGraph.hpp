@@ -81,6 +81,9 @@ public:
         const auto &count = getEdgesCount();
         const auto &vertices = getVertexCount();
 
+        if (vertices == 0)
+            return;
+        
         std::cout << "   " << KRED;
         for (size_t j = 0; j < count; j++) {
             std::cout << j << "  ";

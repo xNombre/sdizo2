@@ -12,7 +12,7 @@ public:
         const auto &edges = graph.getEdges();
         const auto &vertices = graph.getVertexCount();
 
-        ListGraph mst;
+        ListGraph mst(false);
 
         if (vertices == 0)
             return mst;

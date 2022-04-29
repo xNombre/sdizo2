@@ -32,10 +32,14 @@ public:
     static Array<PathNode> getShortestPath(const ListGraph &graph, const size_t &from = 0)
     {
         const auto &edges = graph.getEdges();
+        const auto &vertices = graph.getVertexCount();
 
         MinHeap<HeapNode> vertexToProcess;
-        Array<PathNode> pathWeights(graph.getVertexCount());
+        Array<PathNode> pathWeights(vertices);
 
+        if (vertices == 0)
+            return pathWeights;
+        
         vertexToProcess.push(HeapNode(from, 0));
         pathWeights[from].weight = 0;
         pathWeights[from].prev = SIZE_MAX;
@@ -85,6 +89,9 @@ public:
         MinHeap<HeapNode> vertexToProcess;
         Array<PathNode> pathWeights(vertices);
 
+        if (vertices == 0)
+            return pathWeights;
+        
         vertexToProcess.push(HeapNode(from, 0));
         pathWeights[from].weight = 0;
 

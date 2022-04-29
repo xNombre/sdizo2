@@ -15,8 +15,12 @@ public:
     {
         const auto &edges = graph.getEdges();
         const auto &vertices = graph.getVertexCount();
-        ListGraph mstGraph;
 
+        ListGraph mstGraph(false);
+
+        if (vertices == 0)
+            return mstGraph;
+        
         UnionFind forest(vertices);
         MinHeap<Edge> edgesQueue;
 
@@ -35,7 +39,7 @@ public:
             if (aParent != bParent) {
                 // Vertices not connected, union em
                 forest.unionNodes(node.from, node.to);
-                // Edge needs to be reprocessed
+                // Add edge to mst
                 mstGraph.addEdge(node.from, node.to, node.weight);
 
                 addedEdges++;
@@ -49,18 +53,26 @@ public:
 
     static MatrixGraph generateMst(const MatrixGraph &graph)
     {
-        MinHeap<Edge> edgesQueue;
         const auto &vertices = graph.getVertexCount();
         const auto &edges = graph.getEdgesCount();
-        MatrixGraph mstGraph(false);
         const auto &matrix = graph.getMatrix();
-        UnionFind forest(vertices);
 
+        MatrixGraph mstGraph(false);
+        
+        if (vertices == 0)
+            return mstGraph;
+        
+        MinHeap<Edge> edgesQueue;
+        UnionFind forest(vertices);
+        
         // Push all edges to the heap
-        for (size_t i = 0; i < vertices; i++) {
-            for (size_t j = 0; j < edges; j++) {
-                if (matrix[i][j] > 0) {
-                    edgesQueue.push(Edge(i, graph.findOtherVertexOfEdge(j, i), matrix[i][j]));
+        for (size_t vertex = 0; vertex < vertices; vertex++) {
+            for (size_t edge = 0; edge < edges; edge++) {
+                if (matrix[vertex][edge] > 0) {
+                    edgesQueue.push(
+                        Edge(vertex, graph.findOtherVertexOfEdge(edge, vertex),
+                             matrix[vertex][edge])
+                    );
                 }
             }
         }
@@ -75,7 +87,7 @@ public:
             if (aParent != bParent) {
                 // Vertices not connected, union em
                 forest.unionNodes(node.from, node.to);
-                // Edge needs to be reprocessed
+                // Add edge to mst
                 mstGraph.addEdge(node.from, node.to, node.weight);
 
                 addedEdges++;

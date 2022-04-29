@@ -14,8 +14,11 @@ public:
         const auto &vertices = graph.getVertexCount();
 
         Array<PathNode> pathWeights(vertices);
-        pathWeights[from].weight = 0;
 
+        if (vertices == 0)
+            return pathWeights;
+        
+        pathWeights[from].weight = 0;
         bool changesMade;
 
         for (size_t i = 0; i < vertices - 1; i++) {
@@ -62,21 +65,24 @@ public:
         const auto &vertices = graph.getVertexCount();
 
         Array<PathNode> pathWeights(vertices);
-        pathWeights[from].weight = 0;
 
+        if (vertices == 0)
+            return pathWeights;
+
+        pathWeights[from].weight = 0;
         bool changesMade;
 
         for (size_t i = 0; i < vertices - 1; i++) {
             changesMade = false;
 
-            for (size_t i = 0; i < vertices; i++) {
-                for (size_t j = 0; j < edges; j++) {
+            for (size_t vertex = 0; vertex < vertices; vertex++) {
+                for (size_t edge = 0; edge < edges; edge++) {
                     size_t curEdgeFrom, curEdgeTo, weight;
 
-                    if (matrix[i][j] < 0) {
-                        curEdgeFrom = i;
-                        curEdgeTo = graph.findOtherVertexOfEdge(j, i);
-                        weight = std::abs(matrix[i][j]);
+                    if (matrix[vertex][edge] < 0) {
+                        curEdgeFrom = vertex;
+                        curEdgeTo = graph.findOtherVertexOfEdge(edge, vertex);
+                        weight = std::abs(matrix[vertex][edge]);
                     }
                     else
                         continue;
@@ -99,7 +105,6 @@ public:
 
                 }
             }
-
 
             // Break early if no changes were made
             // This is ok per algorithm documentation

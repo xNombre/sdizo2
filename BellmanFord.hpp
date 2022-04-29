@@ -17,16 +17,17 @@ public:
     static Array<PathNode> getShortestPath(const ListGraph &graph, const size_t &from = 0)
     {
         const auto &edges = graph.getEdges();
+        const auto &vertices = graph.getVertexCount();
 
         Array<PathNode> pathWeights(edges.size());
         pathWeights[from].weight = 0;
 
         bool changesMade;
 
-        for (size_t i = 0; i < graph.getVertexCount(); i++) {
+        for (size_t i = 0; i < vertices; i++) {
             changesMade = false;
 
-            for (size_t vertex = 0; vertex <= graph.getVertexCount(); vertex++) {
+            for (size_t vertex = 0; vertex <= vertices; vertex++) {
                 for (size_t edge = 0; edge < edges.size(); edge++) {
                     const auto &curEdge = edges[edge];
 
@@ -74,6 +75,7 @@ public:
             changesMade = false;
 
             for (size_t edge = 0; edge < edges; edge++) {
+                bool fromEdgeSet = false;
                 size_t curEdgeFrom, curEdgeTo, weight;
 
                 for (size_t vertex = 0; vertex < vertices; vertex++) {
@@ -81,9 +83,14 @@ public:
                         curEdgeTo = vertex;
                         weight = matrix[vertex][edge];
                     }
-                    else if (matrix[vertex][edge] < 0)
+                    else if (matrix[vertex][edge] < 0) {
                         curEdgeFrom = vertex;
+                        fromEdgeSet = true;
+                    }
                 }
+
+                if (!fromEdgeSet)
+                    continue;
 
                 // Skip vertices that are not visited yet
                 if (pathWeights[curEdgeFrom].weight == SIZE_MAX)
@@ -118,7 +125,7 @@ public:
 
         if (graph.getVertexCount() == 0)
             return result;
-        
+
         if (graph.getVertexCount() < std::max(from, to) + 1)
             return result;
 

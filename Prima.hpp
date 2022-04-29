@@ -9,8 +9,8 @@ class Prima {
 public:
     static ListGraph generateMst(const ListGraph &graph)
     {
-        auto &edges = graph.getEdges();
-        auto &vertices = graph.getVertexCount();
+        const auto &edges = graph.getEdges();
+        const auto &vertices = graph.getVertexCount();
 
         ListGraph mst;
 
@@ -43,7 +43,7 @@ public:
         pushAdjacentEdges();
 
         // MST will always have (vertices - 1) edges
-        for (size_t addedEdges = 0; addedEdges < vertices - 1; addedEdges++) {
+        for (size_t addedEdges = 0; addedEdges < vertices - 1; ) {
             Edge candidate = edgesQueue.top();
             edgesQueue.pop();
 
@@ -53,6 +53,7 @@ public:
                 mst.addEdge(candidate);
 
                 pushAdjacentEdges();
+                addedEdges++;
             }
             else if (!seenVertices[candidate.from]) {
                 curVertex = candidate.from;
@@ -60,6 +61,7 @@ public:
                 mst.addEdge(candidate);
 
                 pushAdjacentEdges();
+                addedEdges++;
             }
         }
 
@@ -111,7 +113,7 @@ public:
         pushAdjacentEdges();
 
         // MST will always have (vertices - 1) edges
-        for (size_t addedEdges = 0; addedEdges < vertices - 1; addedEdges++) {
+        for (size_t addedEdges = 0; addedEdges < vertices - 1; ) {
             Edge candidate = edgesQueue.top();
             edgesQueue.pop();
 
@@ -121,6 +123,7 @@ public:
                 mst.addEdge(candidate.from, candidate.to, candidate.weight);
 
                 pushAdjacentEdges();
+                addedEdges++;
             }
         }
 

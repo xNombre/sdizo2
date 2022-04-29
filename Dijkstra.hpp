@@ -3,6 +3,7 @@
 #include "Array.hpp"
 #include "MinHeap.hpp"
 #include "MatrixGraph.hpp"
+#include "ListGraph.hpp"
 #include "TotalPathCost.hpp"
 
 class Dijkstra {

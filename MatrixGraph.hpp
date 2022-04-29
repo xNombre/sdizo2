@@ -65,16 +65,15 @@ public:
 
     size_t findOtherVertexOfEdge(const size_t &edge, const size_t &vertex) const
     {
-        // FIXME: nie jest przygotowane na dwukierunkowe grafy bo sprawdza ujemną, wywala -1
-        // Napraw dla cykli wokół tego samego v
-        auto count = getEdgesCount();
+        const auto &count = getVertexCount();
         for (size_t i = 0; i < count; i++) {
             if (matrix[i][edge] != 0 && i != vertex)
                 return i;
         }
 
-        // Unreachable case
-        return -1;
+        // At this point it can be assumed that
+        // vertex is pointing at itself
+        return vertex;
     }
 
     void print() const
@@ -106,6 +105,8 @@ public:
             }
             std::cout << std::endl;
         }
+
+        std::cout << std::endl;
     }
 
     void clear()

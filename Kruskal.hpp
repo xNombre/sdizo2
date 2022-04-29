@@ -27,17 +27,19 @@ public:
         }
 
         // MST will always have (vertices - 1) edges
-        for (size_t addedEdges = 0; addedEdges < vertices; addedEdges++) {
+        for (size_t addedEdges = 0; addedEdges < vertices - 1; ) {
             const auto &node = edgesQueue.top();
 
-            auto &aParent = forest.findNode(node.from);
-            auto &bParent = forest.findNode(node.to);
+            const auto &aParent = forest.findNode(node.from);
+            const auto &bParent = forest.findNode(node.to);
 
             if (aParent != bParent) {
                 // Vertices not connected, union em
                 forest.unionNodes(node.from, node.to);
                 // Edge needs to be reprocessed
                 mstGraph.addEdge(node.from, node.to, node.weight);
+
+                addedEdges++;
             }
 
             edgesQueue.pop();
@@ -65,17 +67,19 @@ public:
         }
 
         // MST will always have (vertices - 1) edges
-        for (size_t addedEdges = 0; addedEdges < vertices; addedEdges++) {
+        for (size_t addedEdges = 0; addedEdges < vertices - 1; ) {
             const auto &node = edgesQueue.top();
 
-            auto &aParent = forest.findNode(node.from);
-            auto &bParent = forest.findNode(node.to);
+            const auto &aParent = forest.findNode(node.from);
+            const auto &bParent = forest.findNode(node.to);
 
             if (aParent != bParent) {
                 // Vertices not connected, union em
                 forest.unionNodes(node.from, node.to);
                 // Edge needs to be reprocessed
                 mstGraph.addEdge(node.from, node.to, node.weight);
+
+                addedEdges++;
             }
 
             edgesQueue.pop();

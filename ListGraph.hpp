@@ -62,6 +62,8 @@ public:
             std::cout << edges[i].weight;
             std::cout << std::endl;
         }
+
+        std::cout << std::endl;
     }
 
     void clear()

@@ -6,7 +6,7 @@
 
 #include "MatrixGraph.hpp"
 #include "ListGraph.hpp"
-#include "TimeBench.cpp"
+#include "TimeBench.hpp"
 #include "RandomGraphGen.hpp"
 #include "Kruskal.hpp"
 #include "Prima.hpp"
@@ -163,7 +163,7 @@ repeat:
         auto to = getDataFromUser();
 
         auto resultL = BellmanFord::getShortestPathFromTo(listGraph, from, to);
-        auto resultM = BellmanFord::getShortestPathFromTo(matrixGraph, from, to);
+        //auto resultM = BellmanFord::getShortestPathFromTo(matrixGraph, from, to);
 
         resultL.print();
         //resultM.print();
@@ -177,7 +177,7 @@ repeat:
         auto to = getDataFromUser();
 
         auto resultL = Dijkstra::getShortestPathFromTo(listGraph, from, to);
-        auto resultM = Dijkstra::getShortestPathFromTo(matrixGraph, from, to);
+        //auto resultM = Dijkstra::getShortestPathFromTo(matrixGraph, from, to);
 
         resultL.print();
         //resultM.print();

@@ -9,6 +9,8 @@ static std::random_device rd;
 static std::default_random_engine generator(rd());
 
 class RandomGraphGen {
+    const static size_t MAX_WEIGHT;
+
     static size_t randomNumberWithinRange(const size_t &first, const size_t &second)
     {
         std::uniform_int_distribution<size_t> distribution(first, second);
@@ -31,7 +33,7 @@ public:
         for (; edgesCount > 0; edgesCount--) {
             size_t from = randomNumberWithinRange(0, vertexCount - 1);
             size_t to = randomNumberWithinRange(0, vertexCount - 1);
-            size_t weight = randomNumberWithinRange(1, 100);
+            size_t weight = randomNumberWithinRange(1, MAX_WEIGHT);
 
             listg.addEdge(from, to, weight);
             matrixg.addEdge(from, to, weight);
@@ -53,9 +55,11 @@ public:
         for (; edgesCount > 0; edgesCount--) {
             size_t from = randomNumberWithinRange(0, vertexCount - 1);
             size_t to = randomNumberWithinRange(0, vertexCount - 1);
-            size_t weight = randomNumberWithinRange(1, INT32_MAX);
+            size_t weight = randomNumberWithinRange(1, MAX_WEIGHT);
 
             graph.addEdge(from, to, weight);
         }
     }
 };
+
+const size_t RandomGraphGen::MAX_WEIGHT = INT16_MAX;

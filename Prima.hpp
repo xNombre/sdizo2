@@ -16,7 +16,7 @@ public:
 
         if (vertices == 0)
             return mst;
-        
+
         Array<bool> seenVertices(vertices);
         MinHeap<Edge> edgesQueue;
         size_t curVertex;
@@ -78,7 +78,7 @@ public:
 
         if (vertices == 0)
             return mst;
-        
+
         Array<bool> seenVertices(vertices);
         MinHeap<Edge> edgesQueue;
         size_t curVertex;

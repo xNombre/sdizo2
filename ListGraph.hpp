@@ -71,7 +71,7 @@ public:
         vertexCount = 0;
         edges = Array<Edge>();
     }
-    
+
 private:
     Array<Edge> edges;
     size_t vertexCount = 0;

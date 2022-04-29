@@ -17,7 +17,7 @@ struct TotalPathCost {
             std::cout << KRED << "Nie ma drogi!" << RST << std::endl;
             return;
         }
-        
+
         for (size_t i = 0; i < path.size() - 1; i++) {
             std::cout << KBLU << path[i] << RST << " -> ";
         }

@@ -32,17 +32,17 @@ class TimeBenchmark {
             times++;
         }
 
-        timedata getAvgElapsedNsec()
+        timedata getAvgElapsedUsec()
         {
-            return std::chrono::duration_cast<std::chrono::nanoseconds>(elapsed).count() / times;
+            return std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count() / times;
         }
     };
 
-    const vector<size_t> graphSizes = { 20 };//{ 20, 50, 100, 250, 500 };
-    const vector<size_t> fillFactors = { 50 };//{ 25, 50, 75, 99 };
+    const vector<size_t> graphSizes = { 20, 50, 100, 150, 200, 250 };
+    const vector<size_t> fillFactors = { 25, 50, 75, 99 };
 
     const size_t averagingLoopsCount = 1;
-    const size_t datasetGenerationCount = 1;//100;
+    const size_t datasetGenerationCount = 5;
 
     template <typename Container, typename Algorithm>
     timedata benchmarkSuiteMST(const size_t &size, const size_t &fill)
@@ -59,7 +59,7 @@ class TimeBenchmark {
                 containerTimeAveraging.benchmarkStop();
             }
         }
-        return containerTimeAveraging.getAvgElapsedNsec();
+        return containerTimeAveraging.getAvgElapsedUsec();
     }
 
     template <typename Container, typename Algorithm>
@@ -68,19 +68,16 @@ class TimeBenchmark {
         AveragedTimeMeasure containerTimeAveraging;
 
         for (std::size_t j = 0; j < datasetGenerationCount; j++) {
-            Container graph(false);
-            RandomGraphGen::random(graph, size, fill, false);
+            Container graph;
+            RandomGraphGen::random(graph, size, fill);
 
             for (std::size_t i = 0; i < averagingLoopsCount; i++) {
                 containerTimeAveraging.benchmarkStart();
-                auto res = Algorithm::getShortestPath(graph, 0);
-                for (size_t jj = 0; jj < res.size(); jj++) {
-                    cout << jj << ": " << res[jj].weight << " " << res[jj].prev << endl;
-                }
+                Algorithm::getShortestPath(graph);
                 containerTimeAveraging.benchmarkStop();
             }
         }
-        return containerTimeAveraging.getAvgElapsedNsec();
+        return containerTimeAveraging.getAvgElapsedUsec();
     }
 
 public:
@@ -92,24 +89,24 @@ public:
                 cout << "Fill factor: " << fill << "%\n";
 
                 cout << "ListGraph Kruskal:     " <<
-                    benchmarkSuiteMST<ListGraph, Kruskal>(size, fill) << "ns\n";
+                    benchmarkSuiteMST<ListGraph, Kruskal>(size, fill) << "us\n";
                 cout << "ListGraph Prima:       " <<
-                    benchmarkSuiteMST<ListGraph, Prima>(size, fill) << "ns\n";
+                    benchmarkSuiteMST<ListGraph, Prima>(size, fill) << "us\n";
                 cout << "ListGraph Dijkstra:    " <<
-                    benchmarkSuiteShortest<ListGraph, Dijkstra>(size, fill) << "ns\n";
+                    benchmarkSuiteShortest<ListGraph, Dijkstra>(size, fill) << "us\n";
                 cout << "ListGraph BellmanFord: " <<
-                    benchmarkSuiteShortest<ListGraph, BellmanFord>(size, fill) << "ns\n";
+                    benchmarkSuiteShortest<ListGraph, BellmanFord>(size, fill) << "us\n";
 
                 cout << endl;
-                
+
                 cout << "MatrixGraph Kruskal:     " <<
-                    benchmarkSuiteMST<MatrixGraph, Kruskal>(size, fill) << "ns\n";
+                    benchmarkSuiteMST<MatrixGraph, Kruskal>(size, fill) << "us\n";
                 cout << "MatrixGraph Prima:       " <<
-                    benchmarkSuiteMST<MatrixGraph, Prima>(size, fill) << "ns\n";
+                    benchmarkSuiteMST<MatrixGraph, Prima>(size, fill) << "us\n";
                 cout << "MatrixGraph Dijkstra:    " <<
-                    benchmarkSuiteShortest<MatrixGraph, Dijkstra>(size, fill) << "ns\n";
+                    benchmarkSuiteShortest<MatrixGraph, Dijkstra>(size, fill) << "us\n";
                 cout << "MatrixGraph BellmanFord: " <<
-                    benchmarkSuiteShortest<MatrixGraph, BellmanFord>(size, fill) << "ns\n";
+                    benchmarkSuiteShortest<MatrixGraph, BellmanFord>(size, fill) << "us\n";
 
                 cout << endl;
             }

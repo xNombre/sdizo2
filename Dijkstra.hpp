@@ -5,16 +5,8 @@
 #include "MatrixGraph.hpp"
 #include "ListGraph.hpp"
 #include "TotalPathCost.hpp"
-
+#include "PathNode.hpp"
 class Dijkstra {
-    struct PathNode {
-        size_t weight = SIZE_MAX;
-        size_t prev;
-
-        PathNode(const size_t weight, const size_t &prev) : weight(weight), prev(prev) { }
-        PathNode() { }
-    };
-
     struct HeapNode {
         size_t distance;
         size_t vertex;
@@ -46,22 +38,24 @@ public:
 
         vertexToProcess.push(HeapNode(from, 0));
         pathWeights[from].weight = 0;
+        pathWeights[from].prev = SIZE_MAX;
 
         while (!vertexToProcess.empty()) {
-            auto node = vertexToProcess.top();
-            auto curVertex = node.vertex;
+            const auto node = vertexToProcess.top();
+            const auto &curVertex = node.vertex;
             vertexToProcess.pop();
 
             // Check if shorter path has been already processed
+            // https://cs.stackexchange.com/questions/118388/dijkstra-without-decrease-key
             if (node.distance != pathWeights[curVertex].weight)
                 continue;
 
             for (size_t i = 0; i < edges.size(); i++) {
-                const auto &newVertex = edges[i].to;
-
                 // Find all edges adjacent to curVertex
                 if (edges[i].from != curVertex)
                     continue;
+
+                const auto &newVertex = edges[i].to;
 
                 // Look for shorter path
                 if (pathWeights[newVertex].weight >
@@ -82,7 +76,7 @@ public:
         return pathWeights;
     }
 
-    static Array<PathNode> getShortestPath(const MatrixGraph &graph, const size_t &from)
+    static Array<PathNode> getShortestPath(const MatrixGraph &graph, const size_t &from = 0)
     {
         const auto &matrix = graph.getMatrix();
         const auto &edges = graph.getEdgesCount();
@@ -95,8 +89,8 @@ public:
         pathWeights[from].weight = 0;
 
         while (!vertexToProcess.empty()) {
-            auto node = vertexToProcess.top();
-            auto curVertex = node.vertex;
+            const auto node = vertexToProcess.top();
+            const auto &curVertex = node.vertex;
             vertexToProcess.pop();
 
             // Check if shorter path has been already processed
@@ -111,8 +105,7 @@ public:
 
                 for (size_t endVertex = 0; endVertex < vertices; endVertex++) {
                     // Find end vertice of adjacent edge
-
-                    if (matrix[endVertex][i] == 0 || endVertex == curVertex)
+                    if (matrix[endVertex][i] <= 0)
                         continue;
 
                     // Look for shorter path
@@ -139,7 +132,7 @@ public:
     static TotalPathCost getShortestPathFromTo(const T &graph, const size_t &from, const size_t &to)
     {
         TotalPathCost result;
-        
+
         if (graph.getVertexCount() == 0)
             return result;
 

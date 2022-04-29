@@ -69,7 +69,7 @@ void mstMenu()
     char input;
     ListGraph listGraph(false);
     MatrixGraph matrixGraph(false);
-    
+
 repeat:
     cout << "r - odczyt z pliku\n"
         << "x - losowy graf\n"
@@ -167,7 +167,7 @@ repeat:
 
         resultL.print();
         //resultM.print();
-        
+
         break;
     }
     case 'd': {

@@ -13,7 +13,7 @@ public:
 
     static ListGraph generateMst(const ListGraph &graph)
     {
-        const auto &edges = graph.getEdges();
+        //const auto &edges = graph.getEdges();
         const auto &vertices = graph.getVertexCount();
 
         ListGraph mstGraph(false);
@@ -25,12 +25,16 @@ public:
         MinHeap<Edge> edgesQueue;
 
         // Push all edges to the heap
-        for (size_t i = 0; i < edges.size(); i++) {
-            edgesQueue.push(edges[i]);
+        for (size_t vertex = 0; vertex < vertices; vertex++) {
+            auto adjacent = graph.getVerticesAdjacentTo(vertex);
+            for (size_t adj = 0; adj < adjacent.size(); adj++) {
+                edgesQueue.push(Edge(vertex, adjacent[adj].edge, adjacent[adj].weight));
+            }
+
         }
 
         // MST will always have (vertices - 1) edges
-        for (size_t addedEdges = 0; addedEdges < vertices - 1; ) {
+        for (size_t addedEdges = 0; addedEdges < vertices - 1 && !edgesQueue.empty(); ) {
             const auto &node = edgesQueue.top();
 
             const auto &aParent = forest.findNode(node.from);
@@ -78,7 +82,7 @@ public:
         }
 
         // MST will always have (vertices - 1) edges
-        for (size_t addedEdges = 0; addedEdges < vertices - 1; ) {
+        for (size_t addedEdges = 0; addedEdges < vertices - 1 && !edgesQueue.empty(); ) {
             const auto &node = edgesQueue.top();
 
             const auto &aParent = forest.findNode(node.from);

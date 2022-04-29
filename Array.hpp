@@ -14,6 +14,13 @@ public:
     Array(const std::initializer_list<T> &list);
     Array &operator=(const Array &other);
     ~Array();
+    Array(const Array &other)
+    {
+        array_size = other.array_size;
+        array = new T[array_size];
+        std::copy(other.array, other.array + array_size, array);
+    }
+    //Array()
 
     // Set all elements of the array to 0
     void clear();

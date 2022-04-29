@@ -13,56 +13,57 @@ using std::size_t;
 
 class ListGraph {
 public:
+    struct AdjacentEdge {
+        size_t edge;
+        size_t weight;
+
+        AdjacentEdge(size_t edge, size_t weight) : edge(edge), weight(weight) { }
+        AdjacentEdge() { }
+    };
+
     ListGraph(bool isDirected = true) : isDirected(isDirected) { }
+
+    const size_t &getEdgesCount() const
+    {
+        return edgesCount;
+    }
 
     const size_t &getVertexCount() const
     {
-        return vertexCount;
-    }
-
-    void setVertexCount(const size_t &count)
-    {
-        vertexCount = count;
+        return edges.size();
     }
 
     void addEdge(const size_t &fromVertex, const size_t &toVertex, const size_t &weight)
     {
-        edges.push_back(Edge(fromVertex, toVertex, weight));
-
         auto max = std::max(fromVertex, toVertex) + 1;
-        if (max > vertexCount)
-            vertexCount = max;
+        if (max > edges.size())
+            edges.resize(max);
+
+        edges[fromVertex].push_back(AdjacentEdge(toVertex, weight));
+        
+        if (!isDirected && fromVertex != toVertex)
+            edges[toVertex].push_back(AdjacentEdge(fromVertex, weight));
+
+        edgesCount++;
     }
 
-    void addEdge(const Edge &edge)
+    const Array<AdjacentEdge> &getVerticesAdjacentTo(const size_t &vertex) const
     {
-        edges.push_back(Edge(edge));
-    }
-
-    const Array<Edge> &getEdges() const
-    {
-        return edges;
+        return edges[vertex];
     }
 
     void print() const
     {
-        if (vertexCount == 0)
+        if (edges.size() == 0)
             return;
-        
-        std::cout << KRED << "F  T  W " << RST << std::endl;
 
-        for (size_t i = 0; i < edges.size(); i++) {
-            std::cout << edges[i].from << " ";
+        for (size_t i = 0; i < edges.size(); i++) {            
+            std::cout << KBLU << i << RST << ": ";
 
-            if (edges[i].from < 10)
-                std::cout << " ";
-
-            std::cout << edges[i].to << " ";
-
-            if (edges[i].to < 10)
-                std::cout << " ";
-
-            std::cout << edges[i].weight;
+            for (size_t j = 0; j < edges[i].size(); j++) {
+                std::cout << "[" << edges[i][j].edge << ", " << edges[i][j].weight << "] ";
+            }
+            
             std::cout << std::endl;
         }
 
@@ -71,12 +72,12 @@ public:
 
     void clear()
     {
-        vertexCount = 0;
-        edges = Array<Edge>();
+        edgesCount = 0;
+        edges = Array<Array<AdjacentEdge>>();
     }
 
 private:
-    Array<Edge> edges;
-    size_t vertexCount = 0;
+    Array<Array<AdjacentEdge>> edges;
+    size_t edgesCount = 0;
     bool isDirected;
 };

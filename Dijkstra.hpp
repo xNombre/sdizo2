@@ -31,7 +31,7 @@ class Dijkstra {
 public:
     static Array<PathNode> getShortestPath(const ListGraph &graph, const size_t &from = 0)
     {
-        const auto &edges = graph.getEdges();
+        //const auto &edges = graph.getEdges();
         const auto &vertices = graph.getVertexCount();
 
         MinHeap<HeapNode> vertexToProcess;
@@ -54,19 +54,16 @@ public:
             if (node.distance != pathWeights[curVertex].weight)
                 continue;
 
-            for (size_t i = 0; i < edges.size(); i++) {
-                // Find all edges adjacent to curVertex
-                if (edges[i].from != curVertex)
-                    continue;
-
-                const auto &newVertex = edges[i].to;
+            auto adjacent = graph.getVerticesAdjacentTo(curVertex);
+            for (size_t i = 0; i < adjacent.size(); i++) {
+                const auto &newVertex = adjacent[i].edge;
 
                 // Look for shorter path
                 if (pathWeights[newVertex].weight >
-                    pathWeights[curVertex].weight + edges[i].weight) {
+                    pathWeights[curVertex].weight + adjacent[i].weight) {
                     // Update path weight
                     pathWeights[newVertex].weight =
-                        pathWeights[curVertex].weight + edges[i].weight;
+                        pathWeights[curVertex].weight + adjacent[i].weight;
 
                     // Save previous vertex to be able to restore the shortest path
                     pathWeights[newVertex].prev = curVertex;

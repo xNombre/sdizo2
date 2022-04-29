@@ -38,11 +38,11 @@ class TimeBenchmark {
         }
     };
 
-    const vector<size_t> graphSizes = { 20, 50, 70, 100, 120, 150 };
+    const vector<size_t> graphSizes = { 50, 70, 100, 120, 150 };
     const vector<size_t> fillFactors = { 25, 50, 75, 99 };
 
     const size_t averagingLoopsCount = 1;
-    const size_t datasetGenerationCount = 5;
+    const size_t datasetGenerationCount = 3;
 
     template <typename Container, typename Algorithm>
     timedata benchmarkSuiteMST(const size_t &size, const size_t &fill)

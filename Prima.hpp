@@ -9,7 +9,7 @@ class Prima {
 public:
     static ListGraph generateMst(const ListGraph &graph)
     {
-        const auto &edges = graph.getEdges();
+        //const auto &edges = graph.getEdges();
         const auto &vertices = graph.getVertexCount();
 
         ListGraph mst(false);
@@ -25,15 +25,10 @@ public:
         // This needs to be done for to and from because ListGraph
         // isn't bidirectional
         auto pushAdjacentEdges = [&]() {
-            for (size_t i = 0; i < edges.size(); i++) {
-                if (edges[i].to == curVertex) {
-                    if (!seenVertices[edges[i].from])
-                        edgesQueue.push(edges[i]);
-                }
-                else if (edges[i].from == curVertex) {
-                    if (!seenVertices[edges[i].to])
-                        edgesQueue.push(edges[i]);
-                }
+            const auto &adjacent = graph.getVerticesAdjacentTo(curVertex);
+            for (size_t i = 0; i < adjacent.size(); i++) {
+                if (!seenVertices[adjacent[i].edge] && adjacent[i].edge != curVertex)
+                        edgesQueue.push(Edge(curVertex, adjacent[i].edge, adjacent[i].weight));
             }
         };
 
@@ -43,14 +38,14 @@ public:
         pushAdjacentEdges();
 
         // MST will always have (vertices - 1) edges
-        for (size_t addedEdges = 0; addedEdges < vertices - 1; ) {
+        for (size_t addedEdges = 0; addedEdges < vertices - 1 && !edgesQueue.empty(); ) {
             Edge candidate = edgesQueue.top();
             edgesQueue.pop();
 
             if (!seenVertices[candidate.to]) {
                 curVertex = candidate.to;
                 seenVertices[curVertex] = true;
-                mst.addEdge(candidate);
+                mst.addEdge(candidate.from, candidate.to, candidate.weight);
 
                 pushAdjacentEdges();
                 addedEdges++;
@@ -58,7 +53,7 @@ public:
             else if (!seenVertices[candidate.from]) {
                 curVertex = candidate.from;
                 seenVertices[curVertex] = true;
-                mst.addEdge(candidate);
+                mst.addEdge(candidate.from, candidate.to, candidate.weight);
 
                 pushAdjacentEdges();
                 addedEdges++;
@@ -113,7 +108,7 @@ public:
         pushAdjacentEdges();
 
         // MST will always have (vertices - 1) edges
-        for (size_t addedEdges = 0; addedEdges < vertices - 1; ) {
+        for (size_t addedEdges = 0; addedEdges < vertices - 1 && !edgesQueue.empty(); ) {
             Edge candidate = edgesQueue.top();
             edgesQueue.pop();
 

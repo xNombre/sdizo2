@@ -10,7 +10,7 @@ class BellmanFord {
 public:
     static Array<PathNode> getShortestPath(const ListGraph &graph, const size_t &from = 0)
     {
-        const auto &edges = graph.getEdges();
+        //const auto &edges = graph.getEdges();
         const auto &vertices = graph.getVertexCount();
 
         Array<PathNode> pathWeights(vertices);
@@ -25,8 +25,9 @@ public:
             changesMade = false;
 
             for (size_t vertex = 0; vertex < vertices; vertex++) {
-                for (size_t edge = 0; edge < edges.size(); edge++) {
-                    const auto &curEdge = edges[edge];
+                auto adjacent = graph.getVerticesAdjacentTo(vertex);
+                for (size_t edge = 0; edge < adjacent.size(); edge++) {
+                    const auto &curEdge = Edge(vertex, adjacent[edge].edge, adjacent[edge].weight);
 
                     if (curEdge.from != vertex)
                         continue;

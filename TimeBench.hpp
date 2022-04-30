@@ -83,38 +83,17 @@ class TimeBenchmark {
 public:
     void run()
     {
-        /*for (const auto &size : graphSizes) {
-            cout << "Testing graph at size: " << size << "\n//////////////\n";
-            for (const auto &fill : fillFactors) {
-                cout << "Fill factor: " << fill << "%\n";
-
-                cout << "ListGraph Kruskal:     " <<
-                    benchmarkSuiteMST<ListGraph, Kruskal>(size, fill) << "us\n";
-                cout << "ListGraph Prima:       " <<
-                    benchmarkSuiteMST<ListGraph, Prima>(size, fill) << "us\n";
-                cout << "ListGraph Dijkstra:    " <<
-                    benchmarkSuiteShortest<ListGraph, Dijkstra>(size, fill) << "us\n";
-                cout << "ListGraph BellmanFord: " <<
-                    benchmarkSuiteShortest<ListGraph, BellmanFord>(size, fill) << "us\n";
-
-                cout << endl;
-
-                cout << "MatrixGraph Kruskal:     " <<
-                    benchmarkSuiteMST<MatrixGraph, Kruskal>(size, fill) << "us\n";
-                cout << "MatrixGraph Prima:       " <<
-                    benchmarkSuiteMST<MatrixGraph, Prima>(size, fill) << "us\n";
-                cout << "MatrixGraph Dijkstra:    " <<
-                    benchmarkSuiteShortest<MatrixGraph, Dijkstra>(size, fill) << "us\n";
-                cout << "MatrixGraph BellmanFord: " <<
-                    benchmarkSuiteShortest<MatrixGraph, BellmanFord>(size, fill) << "us\n";
-
-                cout << endl;
-            }
-        }*/
-
-        cout << "ListGraph Kruskal\n";
+        cout << "Graphs sizes: ";
+        for (const auto &size : graphSizes) {
+            cout << size << " ";
+        }
+        cout << "Graphs fill factors: ";
         for (const auto &fill : fillFactors) {
-            cout << "Fill factor: " << fill << "%\n";
+            cout << fill << " ";
+        }
+
+        cout << "\nListGraph Kruskal\n";
+        for (const auto &fill : fillFactors) {
             for (const auto &size : graphSizes) {
                 cout << size << " " <<
                     benchmarkSuiteMST<ListGraph, Kruskal>(size, fill) << "\n";
@@ -124,7 +103,6 @@ public:
 
         cout << "ListGraph Prima\n";
         for (const auto &fill : fillFactors) {
-            cout << "Fill factor: " << fill << "%\n";
             for (const auto &size : graphSizes) {
                 cout << size << " " <<
                     benchmarkSuiteMST<ListGraph, Prima>(size, fill) << "\n";
@@ -134,7 +112,6 @@ public:
 
         cout << "ListGraph Dijkstra\n";
         for (const auto &fill : fillFactors) {
-            cout << "Fill factor: " << fill << "%\n";
             for (const auto &size : graphSizes) {
                 cout << size << " " <<
                     benchmarkSuiteShortest<ListGraph, Dijkstra>(size, fill) << "\n";
@@ -144,7 +121,6 @@ public:
 
         cout << "ListGraph BellmanFord\n";
         for (const auto &fill : fillFactors) {
-            cout << "Fill factor: " << fill << "%\n";
             for (const auto &size : graphSizes) {
                 cout << size << " " <<
                     benchmarkSuiteShortest<ListGraph, BellmanFord>(size, fill) << "\n";
@@ -154,7 +130,6 @@ public:
 
         cout << "MatrixGraph Kruskal\n";
         for (const auto &fill : fillFactors) {
-            cout << "Fill factor: " << fill << "%\n";
             for (const auto &size : graphSizes) {
                 cout << size << " " <<
                     benchmarkSuiteMST<MatrixGraph, Kruskal>(size, fill) << "\n";
@@ -164,7 +139,6 @@ public:
 
         cout << "MatrixGraph Prima\n";
         for (const auto &fill : fillFactors) {
-            cout << "Fill factor: " << fill << "%\n";
             for (const auto &size : graphSizes) {
                 cout << size << " " <<
                     benchmarkSuiteMST<MatrixGraph, Prima>(size, fill) << "\n";
@@ -174,7 +148,6 @@ public:
 
         cout << "MatrixGraph Dijkstra\n";
         for (const auto &fill : fillFactors) {
-            cout << "Fill factor: " << fill << "%\n";
             for (const auto &size : graphSizes) {
                 cout << size << " " <<
                     benchmarkSuiteShortest<MatrixGraph, Dijkstra>(size, fill) << "\n";
@@ -184,7 +157,6 @@ public:
 
         cout << "MatrixGraph BellmanFord\n";
         for (const auto &fill : fillFactors) {
-            cout << "Fill factor: " << fill << "%\n";
             for (const auto &size : graphSizes) {
                 cout << size << " " <<
                     benchmarkSuiteShortest<MatrixGraph, BellmanFord>(size, fill) << "\n";

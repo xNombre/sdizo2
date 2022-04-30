@@ -26,7 +26,8 @@ public:
 
         edgesCount = vertexCount * (vertexCount - 1);
 
-        if (isDirected)
+        // Not directed graphs have two times less edges
+        if (!isDirected)
             edgesCount /= 2;
 
         edgesCount *= 0.01 * fillFactor;
@@ -46,7 +47,7 @@ public:
 
         edgesCount = vertexCount * (vertexCount - 1);
 
-        if (isDirected)
+        if (!isDirected)
             edgesCount /= 2;
 
         edgesCount *= 0.01 * fillFactor;

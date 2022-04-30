@@ -37,7 +37,7 @@ public:
         auto &edgesCount = matrix[0].size();
         for (size_t i = 0; i < matrix.size(); i++) {
             if (i == from)
-                matrix[i].push_back(isDirected ? -weight : weight);
+                matrix[i].push_back(isDirected && from != to ? -weight : weight);
             else if (i == to)
                 matrix[i].push_back(weight);
             else
@@ -63,27 +63,16 @@ public:
             return 0;
     }
 
-    size_t findOtherVertexOfEdge(const size_t &edge, const size_t &vertex) const
-    {
-        const auto &count = getVertexCount();
-        for (size_t i = 0; i < count; i++) {
-            if (matrix[i][edge] != 0 && i != vertex)
-                return i;
-        }
-
-        // At this point it can be assumed that
-        // vertex is pointing at itself
-        return vertex;
-    }
-
     void print() const
     {
         const auto &count = getEdgesCount();
         const auto &vertices = getVertexCount();
 
-        if (vertices == 0)
+        if (vertices == 0) {
+            std::cout << KRED << "Graf jest pusty!" << RST << std::endl;
             return;
-        
+        }
+
         std::cout << "   " << KRED;
         for (size_t j = 0; j < count; j++) {
             std::cout << j << "  ";

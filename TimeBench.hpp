@@ -34,7 +34,7 @@ class TimeBenchmark {
 
         timedata getAvgElapsedUsec()
         {
-            return std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count() / times;
+            return std::chrono::duration_cast<std::chrono::nanoseconds>(elapsed).count() / times;
         }
     };
 
@@ -42,7 +42,7 @@ class TimeBenchmark {
     const vector<size_t> fillFactors = { 25, 50, 75, 99 };
 
     const size_t averagingLoopsCount = 1;
-    const size_t datasetGenerationCount = 3;
+    const size_t datasetGenerationCount = 10;
 
     template <typename Container, typename Algorithm>
     timedata benchmarkSuiteMST(const size_t &size, const size_t &fill)
@@ -83,7 +83,7 @@ class TimeBenchmark {
 public:
     void run()
     {
-        for (const auto &size : graphSizes) {
+        /*for (const auto &size : graphSizes) {
             cout << "Testing graph at size: " << size << "\n//////////////\n";
             for (const auto &fill : fillFactors) {
                 cout << "Fill factor: " << fill << "%\n";
@@ -110,6 +110,86 @@ public:
 
                 cout << endl;
             }
+        }*/
+
+        cout << "ListGraph Kruskal\n";
+        for (const auto &fill : fillFactors) {
+            cout << "Fill factor: " << fill << "%\n";
+            for (const auto &size : graphSizes) {
+                cout << size << " " <<
+                    benchmarkSuiteMST<ListGraph, Kruskal>(size, fill) << "\n";
+            }
+            cout << endl;
+        }
+
+        cout << "ListGraph Prima\n";
+        for (const auto &fill : fillFactors) {
+            cout << "Fill factor: " << fill << "%\n";
+            for (const auto &size : graphSizes) {
+                cout << size << " " <<
+                    benchmarkSuiteMST<ListGraph, Prima>(size, fill) << "\n";
+            }
+            cout << endl;
+        }
+
+        cout << "ListGraph Dijkstra\n";
+        for (const auto &fill : fillFactors) {
+            cout << "Fill factor: " << fill << "%\n";
+            for (const auto &size : graphSizes) {
+                cout << size << " " <<
+                    benchmarkSuiteShortest<ListGraph, Dijkstra>(size, fill) << "\n";
+            }
+            cout << endl;
+        }
+
+        cout << "ListGraph BellmanFord\n";
+        for (const auto &fill : fillFactors) {
+            cout << "Fill factor: " << fill << "%\n";
+            for (const auto &size : graphSizes) {
+                cout << size << " " <<
+                    benchmarkSuiteShortest<ListGraph, BellmanFord>(size, fill) << "\n";
+            }
+            cout << endl;
+        }
+
+        cout << "MatrixGraph Kruskal\n";
+        for (const auto &fill : fillFactors) {
+            cout << "Fill factor: " << fill << "%\n";
+            for (const auto &size : graphSizes) {
+                cout << size << " " <<
+                    benchmarkSuiteMST<MatrixGraph, Kruskal>(size, fill) << "\n";
+            }
+            cout << endl;
+        }
+
+        cout << "MatrixGraph Prima\n";
+        for (const auto &fill : fillFactors) {
+            cout << "Fill factor: " << fill << "%\n";
+            for (const auto &size : graphSizes) {
+                cout << size << " " <<
+                    benchmarkSuiteMST<MatrixGraph, Prima>(size, fill) << "\n";
+            }
+            cout << endl;
+        }
+
+        cout << "MatrixGraph Dijkstra\n";
+        for (const auto &fill : fillFactors) {
+            cout << "Fill factor: " << fill << "%\n";
+            for (const auto &size : graphSizes) {
+                cout << size << " " <<
+                    benchmarkSuiteShortest<MatrixGraph, Dijkstra>(size, fill) << "\n";
+            }
+            cout << endl;
+        }
+
+        cout << "MatrixGraph BellmanFord\n";
+        for (const auto &fill : fillFactors) {
+            cout << "Fill factor: " << fill << "%\n";
+            for (const auto &size : graphSizes) {
+                cout << size << " " <<
+                    benchmarkSuiteShortest<MatrixGraph, BellmanFord>(size, fill) << "\n";
+            }
+            cout << endl;
         }
     }
 };

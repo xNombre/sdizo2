@@ -102,22 +102,22 @@ public:
                 continue;
 
             // Pushes all edges adjacent to curVertex onto min heap
-            for (size_t i = 0; i < edges; i++) {
+            for (size_t edge = 0; edge < edges; edge++) {
                 // Find edges coming from curVertex
-                if (matrix[curVertex][i] >= 0)
+                if (matrix[curVertex][edge] >= 0)
                     continue;
 
                 for (size_t endVertex = 0; endVertex < vertices; endVertex++) {
-                    // Find end vertice of adjacent edge
-                    if (matrix[endVertex][i] <= 0)
+                    // Find end vertex of adjacent edge
+                    if (matrix[endVertex][edge] <= 0)
                         continue;
 
                     // Look for shorter path
                     if (pathWeights[endVertex].weight >
-                        pathWeights[curVertex].weight + matrix[endVertex][i]) {
+                        pathWeights[curVertex].weight + matrix[endVertex][edge]) {
                         // Update path weight
                         pathWeights[endVertex].weight =
-                            pathWeights[curVertex].weight + matrix[endVertex][i];
+                            pathWeights[curVertex].weight + matrix[endVertex][edge];
 
                         // Save previous vertex to be able to restore the shortest path
                         pathWeights[endVertex].prev = curVertex;

@@ -54,8 +54,10 @@ public:
 
     void print() const
     {
-        if (edges.size() == 0)
+        if (edges.size() == 0) {
+            std::cout << KRED << "Graf jest pusty!" << RST << std::endl;
             return;
+        }
 
         for (size_t i = 0; i < edges.size(); i++) {            
             std::cout << KBLU << i << RST << ": ";

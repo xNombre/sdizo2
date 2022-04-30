@@ -17,7 +17,7 @@ public:
 
         if (vertices == 0)
             return pathWeights;
-        
+
         pathWeights[from].weight = 0;
         bool changesMade;
 
@@ -25,25 +25,23 @@ public:
             changesMade = false;
 
             for (size_t vertex = 0; vertex < vertices; vertex++) {
-                auto adjacent = graph.getVerticesAdjacentTo(vertex);
+                // Skip vertices that are not visited yet
+                if (pathWeights[vertex].weight == SIZE_MAX)
+                    continue;
+
+                const auto &adjacent = graph.getVerticesAdjacentTo(vertex);
                 for (size_t edge = 0; edge < adjacent.size(); edge++) {
-                    const auto &curEdge = Edge(vertex, adjacent[edge].edge, adjacent[edge].weight);
-
-                    if (curEdge.from != vertex)
-                        continue;
-
-                    // Skip vertices that are not visited yet
-                    if (pathWeights[curEdge.from].weight == SIZE_MAX)
-                        continue;
+                    const auto &curEdgeTo = adjacent[edge].edge;
+                    const auto &weight = adjacent[edge].weight;
 
                     // Check whether path can be shorter
-                    if (pathWeights[curEdge.to].weight >
-                        pathWeights[curEdge.from].weight + curEdge.weight) {
+                    if (pathWeights[curEdgeTo].weight >
+                        pathWeights[vertex].weight + weight) {
                         // Update path weight
-                        pathWeights[curEdge.to].weight =
-                            pathWeights[curEdge.from].weight + curEdge.weight;
+                        pathWeights[curEdgeTo].weight =
+                            pathWeights[vertex].weight + weight;
 
-                        pathWeights[curEdge.to].prev = curEdge.from;
+                        pathWeights[curEdgeTo].prev = vertex;
 
                         changesMade = true;
                     }
@@ -77,20 +75,26 @@ public:
             changesMade = false;
 
             for (size_t vertex = 0; vertex < vertices; vertex++) {
+                // Skip vertices that are not visited yet
+                if (pathWeights[vertex].weight == SIZE_MAX)
+                    continue;
+
                 for (size_t edge = 0; edge < edges; edge++) {
                     size_t curEdgeFrom, curEdgeTo, weight;
 
-                    if (matrix[vertex][edge] < 0) {
-                        curEdgeFrom = vertex;
-                        curEdgeTo = graph.findOtherVertexOfEdge(edge, vertex);
-                        weight = std::abs(matrix[vertex][edge]);
-                    }
-                    else
+                    if (matrix[vertex][edge] >= 0)
                         continue;
 
-                    // Skip vertices that are not visited yet
-                    if (pathWeights[curEdgeFrom].weight == SIZE_MAX)
-                        break;
+                    if (matrix[vertex][edge] < 0) {
+                        curEdgeFrom = vertex;
+
+                        for (size_t i = 0; i < vertices; i++) {
+                            if (matrix[i][edge] > 0)
+                                curEdgeTo = i;
+                        }
+
+                        weight = matrix[curEdgeTo][edge];
+                    }
 
                     // Check whether path can be shorter
                     if (pathWeights[curEdgeTo].weight >
@@ -103,7 +107,6 @@ public:
 
                         changesMade = true;
                     }
-
                 }
             }
 

@@ -32,7 +32,7 @@ class TimeBenchmark {
             times++;
         }
 
-        timedata getAvgElapsedUsec()
+        timedata getAvgElapsedNsec()
         {
             return std::chrono::duration_cast<std::chrono::nanoseconds>(elapsed).count() / times;
         }
@@ -42,7 +42,7 @@ class TimeBenchmark {
     const vector<size_t> fillFactors = { 25, 50, 75, 99 };
 
     const size_t averagingLoopsCount = 1;
-    const size_t datasetGenerationCount = 10;
+    const size_t datasetGenerationCount = 15;
 
     template <typename Container, typename Algorithm>
     timedata benchmarkSuiteMST(const size_t &size, const size_t &fill)
@@ -59,7 +59,7 @@ class TimeBenchmark {
                 containerTimeAveraging.benchmarkStop();
             }
         }
-        return containerTimeAveraging.getAvgElapsedUsec();
+        return containerTimeAveraging.getAvgElapsedNsec();
     }
 
     template <typename Container, typename Algorithm>
@@ -77,7 +77,7 @@ class TimeBenchmark {
                 containerTimeAveraging.benchmarkStop();
             }
         }
-        return containerTimeAveraging.getAvgElapsedUsec();
+        return containerTimeAveraging.getAvgElapsedNsec();
     }
 
 public:

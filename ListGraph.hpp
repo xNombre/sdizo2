@@ -35,12 +35,14 @@ public:
 
     void addEdge(const size_t &fromVertex, const size_t &toVertex, const size_t &weight)
     {
-        auto max = std::max(fromVertex, toVertex) + 1;
+        // Add more vertices if necessary
+        const auto &max = std::max(fromVertex, toVertex) + 1;
         if (max > edges.size())
             edges.resize(max);
 
         edges[fromVertex].push_back(AdjacentEdge(toVertex, weight));
-        
+
+        // Dont add mirrored edge when graph is directed or edge is a cycle over same vertex
         if (!isDirected && fromVertex != toVertex)
             edges[toVertex].push_back(AdjacentEdge(fromVertex, weight));
 
@@ -59,13 +61,13 @@ public:
             return;
         }
 
-        for (size_t i = 0; i < edges.size(); i++) {            
+        for (size_t i = 0; i < edges.size(); i++) {
             std::cout << KBLU << i << RST << ": ";
 
             for (size_t j = 0; j < edges[i].size(); j++) {
                 std::cout << "[" << edges[i][j].edge << ", " << edges[i][j].weight << "] ";
             }
-            
+
             std::cout << std::endl;
         }
 

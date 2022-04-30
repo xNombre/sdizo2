@@ -12,15 +12,9 @@ public:
     Array(const std::size_t &size = 0);
     Array(const std::size_t &size, const std::size_t &value);
     Array(const std::initializer_list<T> &list);
-    Array &operator=(const Array &other);
     ~Array();
-    Array(const Array &other)
-    {
-        array_size = other.array_size;
-        array = new T[array_size];
-        std::copy(other.array, other.array + array_size, array);
-    }
-    //Array()
+    Array &operator=(const Array &other);
+    Array(const Array &other);
 
     // Set all elements of the array to 0
     void clear();

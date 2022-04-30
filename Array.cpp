@@ -38,6 +38,14 @@ Array<T>::Array(const std::initializer_list<T> &list) : Array(list.size())
 }
 
 template <typename T>
+Array<T>::Array(const Array<T> &other)
+{
+    array_size = other.array_size;
+    array = new T[array_size];
+    std::copy(other.array, other.array + array_size, array);
+}
+
+template <typename T>
 auto Array<T>::operator=(const Array<T> &other) -> Array<T> &
 {
     array_size = other.array_size;

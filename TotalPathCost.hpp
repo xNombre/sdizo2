@@ -21,7 +21,7 @@ struct TotalPathCost {
         for (size_t i = 0; i < path.size() - 1; i++) {
             std::cout << KBLU << path[i] << RST << " -> ";
         }
-        
+
         std::cout << KBLU << path[path.size() - 1] << RST;
         std::cout << "\nTotal cost: " << KRED << totalCost << RST << std::endl;
     }

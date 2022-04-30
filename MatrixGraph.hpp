@@ -22,21 +22,21 @@ public:
     void addEdge(const size_t &from, const size_t &to, const long long &weight)
     {
         // Add new vertices if necessary
-        auto newSize = std::max(from, to) + 1;
-        auto oldSize = matrix.size();
+        const auto &newSize = std::max(from, to) + 1;
+        const auto oldSize = matrix.size();
         if (newSize > oldSize) {
             matrix.resize(newSize);
 
-            auto &edgesCount = matrix[0].size();
+            const auto &edgesCount = matrix[0].size();
             for (size_t i = oldSize; i < newSize; i++) {
                 matrix[i].resize(edgesCount);
             }
         }
 
         // Add new edge
-        auto &edgesCount = matrix[0].size();
         for (size_t i = 0; i < matrix.size(); i++) {
             if (i == from)
+                // When edge is a cycle over same vertex make its weight positive
                 matrix[i].push_back(isDirected && from != to ? -weight : weight);
             else if (i == to)
                 matrix[i].push_back(weight);

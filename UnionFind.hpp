@@ -33,8 +33,8 @@ public:
 
     void unionNodes(const size_t &a, const size_t &b)
     {
-        auto aParent = findNode(a);
-        auto bParent = findNode(b);
+        const auto &aParent = findNode(a);
+        const auto &bParent = findNode(b);
 
         if (table[aParent].rank < table[bParent].rank)
             table[aParent].parent = bParent;

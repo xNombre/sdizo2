@@ -13,7 +13,6 @@ public:
 
     static ListGraph generateMst(const ListGraph &graph)
     {
-        //const auto &edges = graph.getEdges();
         const auto &vertices = graph.getVertexCount();
 
         ListGraph mstGraph(false);
@@ -24,11 +23,11 @@ public:
         UnionFind forest(vertices);
         MinHeap<Edge> edgesQueue;
 
-        // Push all edges to the heap
+        // Push all edges on the heap
         for (size_t vertex = 0; vertex < vertices; vertex++) {
-            auto adjacent = graph.getVerticesAdjacentTo(vertex);
+            const auto &adjacent = graph.getVerticesAdjacentTo(vertex);
             for (size_t adj = 0; adj < adjacent.size(); adj++) {
-                // Do not queue same edges twice
+                // Do not queue same edges twice 
                 if (adjacent[adj].edge < vertex)
                     continue;
 
@@ -44,7 +43,6 @@ public:
             }
 
             const auto &node = edgesQueue.top();
-
             const auto &aParent = forest.findNode(node.from);
             const auto &bParent = forest.findNode(node.to);
 
@@ -77,15 +75,19 @@ public:
         MinHeap<Edge> edgesQueue;
         UnionFind forest(vertices);
 
-        // Push all edges to the heap
+        // Push all edges on the heap
         for (size_t edge = 0; edge < edges; edge++) {
             size_t curVertex = 0, firstVertex;
+
             for (; curVertex < vertices; curVertex++) {
                 if (matrix[curVertex][edge] > 0) {
                     firstVertex = curVertex++;
                     break;
                 }
             }
+
+            // Optimize process of finding the vertices by
+            // reusing iterator from first loop
             for (; curVertex < vertices; curVertex++) {
                 if (matrix[curVertex][edge] > 0) {
                     edgesQueue.push(
@@ -95,7 +97,8 @@ public:
                 }
             }
 
-            // Cycles are not included however this can be skipped as mst
+            // Cycles are not included by this optimization
+            //however this can be skipped as mst
             // doesnt ever include cycles
         }
 
@@ -107,7 +110,6 @@ public:
             }
 
             const auto &node = edgesQueue.top();
-
             const auto &aParent = forest.findNode(node.from);
             const auto &bParent = forest.findNode(node.to);
 

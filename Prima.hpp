@@ -9,7 +9,6 @@ class Prima {
 public:
     static ListGraph generateMst(const ListGraph &graph)
     {
-        //const auto &edges = graph.getEdges();
         const auto &vertices = graph.getVertexCount();
 
         ListGraph mst(false);
@@ -27,7 +26,7 @@ public:
             for (size_t i = 0; i < adjacent.size(); i++) {
                 // curVertex won't be queued because it is already marged as visited
                 if (!seenVertices[adjacent[i].edge])
-                        edgesQueue.push(Edge(curVertex, adjacent[i].edge, adjacent[i].weight));
+                    edgesQueue.push(Edge(curVertex, adjacent[i].edge, adjacent[i].weight));
             }
         };
 
@@ -42,7 +41,7 @@ public:
                 mst = ListGraph(false);
                 break;
             }
-            
+
             Edge candidate = edgesQueue.top();
             edgesQueue.pop();
 
@@ -81,9 +80,8 @@ public:
                 if (matrix[curVertex][edge] == 0)
                     continue;
 
+                // Find end vertice of adjacent edge
                 for (size_t endVertex = 0; endVertex < vertices; endVertex++) {
-                    // Find end vertice of adjacent edge
-
                     if (matrix[endVertex][edge] == 0 || endVertex == curVertex)
                         continue;
 
@@ -109,7 +107,7 @@ public:
                 mst = MatrixGraph(false);
                 break;
             }
-            
+
             Edge candidate = edgesQueue.top();
             edgesQueue.pop();
 

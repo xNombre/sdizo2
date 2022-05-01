@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Array.hpp"
 #include <iostream>
+
+#include "Array.hpp"
 
 #define RST  "\x1B[0m"
 #define KRED  "\x1B[41m"

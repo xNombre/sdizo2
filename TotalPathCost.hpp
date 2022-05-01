@@ -12,7 +12,7 @@ struct TotalPathCost {
     size_t totalCost = SIZE_MAX;
     Array<size_t> path;
 
-    void print()
+    void print() const
     {
         if (totalCost == SIZE_MAX) {
             std::cout << KRED << "Nie ma drogi!" << RST << std::endl;

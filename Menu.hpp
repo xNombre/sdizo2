@@ -24,7 +24,7 @@ void readFromFile(ListGraph &listg, MatrixGraph &matrixg)
 
     ifstream file(fileName);
     if (!file.is_open())
-        throw std::runtime_error("nope");
+        throw std::runtime_error("File doesnt exist");
 
     size_t edges, vertices;
     file >> edges >> vertices;

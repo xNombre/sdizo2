@@ -45,6 +45,9 @@ void RandomGraphGen::random(ListGraph &listg, MatrixGraph &matrixg, size_t verte
 {
     size_t edgesCount;
 
+    if (fillFactor > 100)
+        throw new std::invalid_argument("fillFactor can't be greater than 100");
+    
     edgesCount = vertexCount * (vertexCount - 1);
 
     if (!isDirected)

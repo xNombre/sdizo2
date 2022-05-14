@@ -1,4 +1,6 @@
 #include "RandomGraphGen.hpp"
+#include <map>
+#include <vector>
 
 const size_t RandomGraphGen::MAX_WEIGHT = INT16_MAX;
 
@@ -47,7 +49,7 @@ void RandomGraphGen::random(ListGraph &listg, MatrixGraph &matrixg, size_t verte
 
     if (fillFactor > 100)
         throw new std::invalid_argument("fillFactor can't be greater than 100");
-    
+
     edgesCount = vertexCount * (vertexCount - 1);
 
     if (!isDirected)
@@ -55,6 +57,23 @@ void RandomGraphGen::random(ListGraph &listg, MatrixGraph &matrixg, size_t verte
 
     edgesCount *= 0.01 * fillFactor;
 
+    if (!isDirected && edgesCount >= vertexCount - 1) {
+        std::vector<bool> seen(vertexCount, false);
+        seen[0] = true;
+        for (size_t i = 1; i < vertexCount - 1; ++i) {
+            if (seen[i] != true) {
+                size_t already_connected = randomNumberWithinRange(0, vertexCount - 1);;
+                while (seen[already_connected] != true)
+                    already_connected = randomNumberWithinRange(0, vertexCount - 1);
+                seen[i] = true;
+                size_t weight = randomNumberWithinRange(1, 99);
+                listg.addEdge(already_connected, i, weight);
+                matrixg.addEdge(already_connected, i, weight);
+            }
+        }
+        edgesCount -= vertexCount - 1;
+    }
+    
     for (; edgesCount > 0; edgesCount--) {
         size_t from = randomNumberWithinRange(0, vertexCount - 1);
         size_t to = randomNumberWithinRange(0, vertexCount - 1);

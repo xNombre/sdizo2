@@ -163,10 +163,10 @@ repeat:
         auto to = getDataFromUser();
 
         auto resultL = BellmanFord::getShortestPathFromTo(listGraph, from, to);
-        //auto resultM = BellmanFord::getShortestPathFromTo(matrixGraph, from, to);
+        auto resultM = BellmanFord::getShortestPathFromTo(matrixGraph, from, to);
 
         resultL.print();
-        //resultM.print();
+        resultM.print();
 
         break;
     }
@@ -177,10 +177,10 @@ repeat:
         auto to = getDataFromUser();
 
         auto resultL = Dijkstra::getShortestPathFromTo(listGraph, from, to);
-        //auto resultM = Dijkstra::getShortestPathFromTo(matrixGraph, from, to);
+        auto resultM = Dijkstra::getShortestPathFromTo(matrixGraph, from, to);
 
         resultL.print();
-        //resultM.print();
+        resultM.print();
 
         break;
     }
